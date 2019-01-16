@@ -1,0 +1,35 @@
+KAT=../j4win
+export KAT ZMIANY
+echo $0 zostal uruchomiony
+# Informuje o tym, ze byly zmieniane jakies pliki
+ZMIANY=0
+if [ -d $KAT ]
+then
+  for i in *
+  do
+    # Pomijamy pliki pol skompilowane
+    if [ "`basename $i .o`" = "$i" -a "$i" != "jeton" \
+         -a "$i" != "Makefile" -a "$i" != "SkrWin" ]
+    then
+      if [ ! -f "$KAT/$i" -o "$i" -nt "$KAT/$i" ]
+      then
+        # Kiedys stosowalismy CP1250, ale na konsoli lepiej stosowac IBM Latin2.
+        #pl i $i No13 Yes13 pl iso 1250 o $KAT/$i
+        pl i $i No13 Yes13 pl iso l2 o $KAT/$i
+        echo Plik $i przetworzony.
+        # Dokonalismy poprawki jakiegos pliku
+        ZMIANY=1
+      else
+        : # echo Ign $i
+      fi
+    fi
+  done
+  # Generujemy zmiane niby-program wykonywalny
+  if [ $ZMIANY -eq 1 ]
+  then
+    sleep 2
+  fi
+    touch $KAT/Readme.txt
+else
+  echo Nie istnieje katalog $KAT.
+fi

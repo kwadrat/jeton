@@ -1,0 +1,496 @@
+Projekt "jeton" - filtr do przetwarzania w sposób potokowy dużych ilości
+danych binarnych. Dane nie są modyfikowane. Potok może mieć rozgałęzienia,
+jeśli chcemy zastosować kilka operacji (np. liczenie sumy kontrolnej,
+raportowanie efektywności transmisji i przesyłanie danych) do tych samych
+danych.
+
+Mon Feb 11 19:23:00 2002
+
+Struktura działania programu
+
+Użytkownik uruchamia jeden program, któremu deklaruje za pomocą ciągu
+parametrów, jakim przekształceniom mają być poddawane przesyłane informacje.
+
+
+Pojęcia używane w systemie:
+magazyn - proces, który posiada bufor w pamięci RAM, do którego inne
+procesy mogą zapisywać oraz z którego mogą odczytywać kolejne porcje
+informacji.
+
+broker - proces, który nie posiada bufora w pamięci RAM. Jego działanie
+polega na wykonywaniu operacji na buforach udostępnionych przez
+proces typu magazyn.
+
+Rodzaje procesów:
+IN (wejściowy) - jest tylko jeden taki proces, na początku. Jego zadaniem
+jest wprowadzanie z zewnątrz strumienia danych. Zwykle nie ma w sobie
+magazynu.
+
+TRANS (przejściowy) - musi być umieszczony wewnątrz ciągu procesów.
+Nie wprowadza informacji z zewnątrz, ani jej nie wysyła na zewnątrz.
+Taki proces może być zarówno brokerem jak i magazynem.
+
+OUT (wyjściowy) - nie może występować na początku ciągu procesów.
+Jego zadaniem jest wysyłanie na zewnątrz ciągu przetwarzanych bajtów.
+Może występować wielokrotnie, jeśli w systemie stosowane są rozdzialacze typu Y.
+Element typu OUT jest zwykle brokerem.
+
+Przy podawaniu parametrów można też podać dodatkowe wartości, opisane poniżej
+jako "OPCJA".
+
+Dodatkowe reguły:
+Nie mogą występować dwa procesy typu magazyn obok siebie - procesy
+takie nie potrafią ze sobą wymieniać danych.
+
+W ciągu procesów wymagane jest istnienie co najmniej jednego magazynu,
+gdyż system złożony z samych brokerów nie miałby gdzie składować
+przesyłanych danych.
+
+Przed elementem typu "y" musi być (bezpośrednio lub pośrednio) magazyn, aby
+jego zawartość mogła być przez element "y" oferowana późniejszym elementom.
+
+Przesył danych zwykle nie powinien modyfikować tych danych, aby np. jeden
+proces nie zmodyfikował danych dla innego procesu.
+
+Przesył danych zwykle zakłada zakończenie pracy systemu po otrzymaniu
+na jedynym wejściu informacji o końcu strumienia danych. Należy też zaplanować
+obsługę sytuacji awaryjnych - naciśnięcie klawisza Ctrl-C lub nieudany zapis
+na jednym ze strumieni wyjściowych.
+
+Oznaczenia i funkcje realizowane przez poszczególne procesy:
+
+"tic" - (INPUT, "-B") - [host, port] podłącza się do podanego komputera
+na podany port TCP, a następnie pobiera stamtąd dane
+
+"tis" - (INPUT, "-B") - [port] przygotowuje się do odebrania połączenia TCP na
+podanym porcie, a następnie pobiera z tego portu dane
+
+"si" - (INPUT, "-B") - [] pobiera dane ze standardowego wejścia
+
+"fi" - (INPUT, "-B") - [plik] pobiera dane z pliku o podanej nazwie. Opcja
+"-m ile" ogranicza liczbę bajtów do odczytania z podanego pliku.
+
+"mi" - (INPUT, "-B") - [ile, plik1, plik2, ..., plik_n] (jeszcze nie działa)
+pozwala na odczyt z wielu plików o podanych nazwach. Stosowany dlatego, że
+istnieją systemy plików, gdzie nie da się zapisywać np. plików
+dłuższych niż 2GB.
+
+"-m" - (OPCJA) [ile] pozwala na ograniczenie liczby odczytywanych
+bajtów. Stosowany dlatego, że bezpośredni odczyt z napędu CD-ROM
+powinien się skończyć tam, gdzie kończy się ISO-image. Ta opcja
+działa dla "fi".
+
+"-isosize" - (OPCJA) [] wymusza traktowanie pliku wejściowego jako
+pliku ISO-image i dlatego liczba odczytywanych danych powinna być ograniczona
+tak, aby odczytać tylko tyle danych, ile zajmuje ISO-image. Ta opcja działa
+dla "fi".
+
+"gi" - (INPUT, "-B") [????] generator typu /dev/zero lub dowolnych danych (o
+stałym wzorze, losowych lub w ogóle nie generowanych, a przekazujemy tylko
+informację, że dane zostały wpisane). Domyślnie generuje same śmieci (binarne),
+można też podać opcję "-b N", gdzie "N" jest liczbą z zakresu 0..255,
+określającą, jaka ma być wartość bajtu, którym będzie wypełniany bufor.
+
+"toc" - (OUTPUT, "B-") [host, port] podłącza się do podanego komputera na
+podany port TCP, a następnie wysyła tam dane
+
+"tos" - (OUTPUT, "B-") [port] przygotowuje się do odebrania połączenia TCP na
+podanym porcie, a następnie wysyła do tego połączenia dane
+
+"so" - (OUTPUT, "B-") [] wysyła dane na standardowe wyjście
+
+"fo" - (OUTPUT, "B-") [plik] zapisuje dane do pliku o podanej nazwie
+
+"mo" - (OUTPUT, "B-") [początkowy fragment nazwy pliku, liczba znaków
+zmiennych, maksymalny rozmiar pliku] zapisuje dane do wielu plików, aby
+ominąć np. ograniczenie wielkości pliku do 2GB (jeszcze nie zaimplementowane)
+
+"-sync" - (OPCJA) [] wymusza zapis danych po każdej operacji. To zdawało
+się być jakimś rozwiązaniem tymczasowego zamierania ruchu w systemie
+Linux dla kernela 2.0.xx. Ta opcja działa dla "fo".
+
+"kopier" - (TRANS, "MM") [typ, rozmiar bufora] wykorzystuje bufor pamięci
+o podanym rozmiarze. Po zapełnieniu bufora jego zawartość jest oferowana
+następnym procesom.
+
+"smar" - (TRANS, "MM") [typ, liczba buforów, rozmiar bufora] wykorzystuje
+rozszczepienie procesu, aby w miarę równolegle obsługiwać zapis i odczyt.
+Dodatkowa opcja "-m" powoduje wyświetlenie na końcu transmisji maksymalnego
+wykorzystania buforów - ile ich było wykorzystanych w czasie pracy. Wymaga
+włączenia wielopoziomowych semaforów w kodzie programu (rozwiązanie trochę na
+piechotę, ale daje większe możliwości). Podawana liczba jest jakby zawsze
+zawyżona o 1, ale dla dokładnie jednego bufora też jest podawane wykorzystanie
+jednego bufora.
+
+
+"md5" - (TRANS, "MM") [rozmiar bufora] oblicza sumę MD5 z wysyłanego ciągu
+danych, rozmiar bufora musi być podzielny przez 64. Typ elementu jest
+zdeterminowany przez fakt, że do obliczenia sumy kontrolnej trzeba dysponować
+buforem, dane w tym buforze muszą być modyfikowane (czyli nie można się
+podpierać buforem wcześniejszego magazynu), a sam wynik realizacji musi być
+dostępny na ekranie bądź umieszczony w pliku lub przesłany przez sieć.
+
+"y" - (TRANS, "BM") [] posiada dwa wskaźniki do następnych procesów,
+co pozwala na realizację struktury drzewa. Oba procesy otrzymują jednakowe
+informacje, przy czym zawsze dane są dostarczane najpierw jednemu procesowi, a
+potem drugiemu (nie ma sytuacji, aby drugi proces zobaczył dane, które nie
+były przekazane pierwszemu procesowi).
+
+"acptr" - (TRANS, "B-") [interwał] wyświetlanie osiągów według programu acceptor,
+pozwala na oszacowanie tymczasowej prędkości (interwał > 0) oraz
+średniej prędkości w czasie całej transmisji. Można podać opcję "-r 8000",
+która spowoduje nagranie czasu trwania 8000 żądań pobrania danych. Można
+w ten sposób sprawdzić, czy dysk czyta płynnie, czy zrywami, np.:
+jeton fi dane.bin kopier 512 acptr -r 8000 60
+Opcja "-r" wyświetla wyniki dopiero po zarejestrowaniu podanej liczby próbek,
+przez co w mniejszym stopniu wpływa na podawane czasy.
+Można też podać tylko opcję "-s", aby raporty były wyświetlane nie co określony
+czas, ale co określoną liczbę odwołań, np. jeśli ustawimy wielkość bufora na
+1MB, a liczbę odczytów na 100, to raport dostajemy co 100MB:
+jeton fi dane.bin kopier 1048576 acptr -s 100
+Za każdym razem, kiedy zostanie wykonana liczba odwołań podana w opcji "-s",
+wyświetlana jest informacja o przebiegu w danym czasie, a wyświetlanie może
+wpływać na wynik pomiarów, dlatego wyświetlanie nie powinno być częściej niż
+(orientacyjnie) raz na sekundę.
+
+
+
+"comp" - (TRANS, "BB") [kierunek]  (1 - kompresja, 0 - dekompresja) powoduje
+kompresję przesyłanych danych
+
+"cat" - (TRANS, "BB") [] przepisuje dane z jednego magazynu do drugiego,
+funkcja do celów testowych.
+
+
+
+Opis protokołu komunikacyjnego między procesami
+
+Wysłane: SAND_SR
+Możliwe odpowiedzi:
+liczba - zapisane poprawnie bajty
+RESULT_OFF - wystąpił błąd i zwracana jest informacja, że proces przestał być
+aktywny
+
+Wysłane: SAND_DR
+Możliwe odpowiedzi:
+liczba - poprawnie odczytane bajty
+RESULT_OFF - wystąpił błąd i zwracana jest informacja, że proces przestał być
+aktywny
+RESULT_EOF - poprawnie skończyły się dane w strumieniu i nie należy od niego
+więcej żądać danych. Stan naszego procesu też się powinien zmienić na
+RESULT_EOF, ale to nie powinno przeszkadzać w transmisji tych danych, które
+jeszcze nam pozostały w buforach.
+RESULT_AGAIN - dane będą w przyszłości, ale na razie nie licz na więcej i
+zakończ teraz swoje działanie.
+
+
+Wysłane: SAND_GENERAL
+Możliwe odpowiedzi:
+RESULT_OFF - wystąpił błąd i najlepiej się zwijać
+RESULT_EOF - stan następnego procesu zamienił się na EOF, więc logiczne jest,
+że nasz proces jest też w stanie EOF. Można to sprawdzić, choć właściwie należy
+zakończyć pracę.
+RESULT_AGAIN - spróbuj się teraz zakończyć, a jak zostaniesz uruchomiony
+ponownie, to może będziesz miał nowe dane do przetwarzania.
+liczba - jest niedopuszczalna, bo nie żądaliśmy nic konkretnego
+
+
+
+Wysłane: SAND_OFF
+Możliwe odpowiedzi - są w sumie nieistotne, bo i tak kończymy pracę
+
+{
+Proces typu "M - magazyn", "B - broker" może uruchamiać następujące akcje:
+
+MB
+ + SAND_GENERAL
++  SAND_SR
++  SAND_DR
+++ SAND_OFF
++  SAND_EOF
+}
+
+{
+Protokół na styku M->B:
+Q: SAND_SR
+A: liczba - pobrane dane z bufora ( >0 )
+A: RESULT_OFF - następny element zawiódł
+
+Q: SAND_EOF
+A: RESULT_EOF - potwierdzenie zamknięcia kanału
+
+Q: SAND_OFF
+A: RESULT_OFF - w sumie nieistotne
+
+Protokół na styku M<-B:
+Q: SAND_OFF
+A: RESULT_OFF - w sumie nieistotne
+
+Protokół na styku B->M:
+Q: SAND_GENERAL
+A: RESULT_AGAIN - zakończ chwilowo działanie
+A: RESULT_OFF - coś się uszkodziło
+A: RESULT_EOF - reszta już skończyła działanie
+
+Q: SAND_OFF
+A: RESULT_OFF - w sumie nieistotne
+
+Protokół na styku B<-M:
+Q: SAND_DR
+A: liczba - pobrane dane do bufora ( >0 )
+A: RESULT_AGAIN - zakończ chwilowo działanie
+A: RESULT_OFF - coś się uszkodziło
+A: RESULT_EOF - początek już skończył działanie
+
+Q: SAND_OFF
+A: RESULT_OFF - w sumie nieistotne
+}
+
+Praca modułu smar:
+Linux - po utworzeniu drugiego procesu przez fork() należy ??? qaz
+
+
+Protokół smar-smar (porozumiewanie się między dwoma częściami systemu
+obsługującymi współdzielony bufor w pamięci)
+Proces1 (parent, master, stdin, wypełnianie bufora)
+Proces2 (child, slave, stdout, opróżnianie bufora)
+
+Proces1 powinien czekać na skończenie się procesu 2.
+Proces1 może otrzymać z zewnątrz dwa komunikaty:
+- SAND_GENERAL - zlecenie pracowania (udostępnienia miejsca) od poprzedniego
+  procesu
+- SAND_OFF - zlecenie zakończenia pracy systemu
+Proces2 jest głównym procesem w drugim ciągu procesów i otrzymuje jedynie
+zlecenia:
+- SAND_GENERAL (od TopMaster'a) - polecenie pracowania - pobierania danych z
+  bufora i udostępniania kolejnym procesom w łańcuchu
+- SAND_OFF - zlecenie zakończenia pracy systemu. Po jego otrzymaniu ma
+  powiadomić pozostałe procesy o zaistniałej sytuacji i zakończyć działanie.
+
+
+Proces lewy pobiera bufor z miejscem od prawego procesu i w statusie może
+otrzymać:
+liczba - ilość wolnego miejsca w buforze
+RESULT_OFF - zepsuł się ciąg dalszy łańcucha, kończymy pracę
+
+Proces prawy pobiera bufor z danymi od lewego procesu i w statusie może
+otrzymać:
+liczba - ilość danych w buforze
+RESULT_OFF - początkowa część łańcucha się uszkodziła, kończymy pracę
+RESULT_EOF - strumień danych się zakończył - powiadom resztę procesów i
+kończymy pracę
+
+SAND_GENERAL
+  ile = 0 - dwie sytuacje, kiedy taka wartość jest przekazywana:
+  - uruchamiany jest pierwszy proces w całym łańcuchu
+  - poprzedni element typu broker rozkazał popracować następnemu
+  procesowi typu magazyn (to może być pierwszy proces typu smar)
+  ile = 1 - uruchomienie drugiego procesu typu smar
+SAND_OFF
+  ile = 1 - późniejszy element powiadamia wcześniejszy,
+  ile = 0 - wcześniejszy element powiadamia późniejszy.
+
+
+Tworzenie wątków:
+Ze względu na to, że chcielibyśmy uruchomić wątek dla pewnego obiektu pewnej
+klasy, chcielibyśmy podać w rozszczepiającej funkcji nazwę funkcji dla tego
+konkretnego obiektu. Trudno to podać (kompilator próbuje wymusić zastosowanie
+operatora "&"). Dlatego należy zastosować zwykłą funkcję, której jako parametr
+zostanie podany wskaźnik "this" do obiektu, dla którego chcemy uruchomić
+funkcję.
+
+Dla elementu "smar" ważne jest, aby zmienne lokalne były wykorzystywane tylko
+przez jeden z dwóch wątków obsługujących. Każda zmienna powinna mieć komentarz
+opisujący, do którego wątku należy ta zmienna.
+
+Założenie:
+Poprawne operacje zaoferowania bufora lub miejsca w buforze powinny pobrać co
+najmniej jeden bajt. Zwrócenie informacji, że przetworzono 0 bajtów jest
+traktowane jako błąd.
+
+Destruktory nie mogą działać jako funkcje wirtualne, dlatego jest tylko
+jeden istotny destruktor, który wywołuje prawdziwy proces dla destrukcji w
+postaci funkcji LocalDestructor().
+
+Rezygnujemy z użycia mechanizmu "CriticalSection", bo jeśli się już raz weszło
+do sekcji krytycznej, to nie działają inne blokady i program się sypie.
+Zamiast tego należy zastosować "CreateSemaphore".
+
+Program "acceptor" mógł sobie zażyczyć dokładnych raportów, bo ustawiał czas,
+po którym się przerywały zbyt długie operacje odczytu. W tym programie
+musielibyśmy przerywać zarówno operacje zapisu, jak i odczytu pliku lub
+połączeń sieciowych. Dlatego przyjęto tu rozwiązanie uproszczone - raporty nie
+są pokazywane częściej, niż podano jako parametr.
+
+Kiedyś istotne było przegrywanie plików do i z serwera, w tej chwili główny
+przesył danych odbywa się między stacjami roboczymi, z pominięciem serwera.
+
+Założenia:
+- jeden duży plik (kilkaset megabajtów)
+- przesłanie między mocnymi stacjami roboczymi
+- weryfikacja przesyłanych danych za pomocą sumy kontrolnej MD5
+- szybka sieć lokalna (co najmniej Fast Ethernet)
+- sieć lokalna nie wprowadza przekłamań (to jest osobny problem, związany z
+  implementacją protokołu lepszego niż TCP)
+- szybkie dyski twarde (aby nie wprowadzać ograniczeń, wystarczające do
+  nasycenia przepustowości sieci Ethernet
+
+  Problem: transmisja nie odbywa się z prędkością zapewnianą przez sieć
+  lokalną, ale wolniej
+Teza: Dostępne narzędzia do transmisji danych nie są przystosowane do
+transmisji w takich warunkach
+
+  Stworzenie modelu sytuacji
+- pobieranie danych z pliku lub z sieci
+- buforowanie w pamięci ze zmiennymi algorytmami
+- pokazywanie efektywności w czasie transmisji
+- możliwość liczenia sumy kontrolnej
+
+- na pobranych danych można jednocześnie: wysyłać dalej, obserwować chwilowe
+  parametry pracy, liczyć sumę kontrolną, oraz ewentualnie wysyłać do więcej
+  niż jednego odbiorcy
+
+
+
+
+
+
+W programie do edycji pliku "Makefile" jest wykorzystywanie ustawienia
+":set noet" dla edytora "vi", aby nie rozwijać Tab za pomocą spacji,
+bo w tym pliku są wymagane właśnie znaki Tab.
+
+Obecnie przesyłane ilości informacji często przekraczają wielkość 4GB,
+a tyle wynosi rozdzielczość 32-bitowych zmiennych typu "int".
+To wymusza zastosowanie niestandardowych typów danych do zliczania
+przesłanych danych: "long long" w systemie Linux, bądź "__i64" dla
+systemów Win95/98/NT.
+
+
+Do zrobienia:
+"fi" - opcja "-iso" - do traktowania pliku wejściowego jako ISO image
+i do ograniczenia wielkości odczytywanych danych
+
+"gi" - umożliwić podawanie liczb "long long"
+
+"kopier" - dodać opcję "-d n" (opóźnienie o podaną liczbę ms)
+oraz opcję "-p n" (opóźnienie periodyczne - co zadaną liczbę ms jest
+generowany strumień danych, a na pewno nie szybciej, jeśli przez
+długi czas nie było transmisji, to zaczynamy liczyć od momentu
+aktualnego).  "-w n" (waterfall) - to samo, co "-p", ale
+z możliwością kumulowania zezwoleń na transmisję danych.
+
+
+Dla Windows:
+New/Win32 Console Application/"jeton"/An empty project
+- ściągnięcie kodu źródłowego - ręczne lub "nowe.bat"
+Project/Add to project/Files/(wszystkie pliki oprócz katalogów)
+Build/Set Active Configuration/Win32 Release
+Project/Settings(Alt-F7)/Link/Object/library modules: wsock32.lib lub ws2_32.lib
+Kompilacja - F7
+
+LARGEFILE:
+RedHat 5.2 - w ogóle nie ma wsparcia dla plików powyżej 2GB
+RedHat 7.2 - są zmienne:
+_LARGEFILE64_SOURCE
+__USE_FILE_OFFSET64
+__USE_LARGEFILE64
+
+Linux sprawdza dostępność wielkich plików przez zdefiniowanie (zalecana metoda)
+#define _FILE_OFFSET_BITS 64
+#include <sys/types.h>
+__GLIBC_MINOR__ 2 (RedHat 7.2)
+__GLIBC_MINOR__ 0 (RedHat 5.2)
+
+---------------------------------------------------------------------------
+Druga wersja programu - z zastosowaniem optymalizacji liczby wywołań między
+procesami
+
+Założenia ogólne:
+Wymagane jest istnienie co najmniej jednego magazynu w łańcuchu.
+Dla elementu Y potrzebne jest zastosowanie co najmniej jednego magazynu przed
+tym elementem.
+
+Założenia różniące wersję drugą programu od wersji pierwszej:
+Dla prostego łańcucha zaczynamy uruchamiać od ostatniego magazynu w łańcuchu.
+Dla elementu Y:
+- dla końcówek (0,0) [taki zapis informuje, że w obu odnogach elementu Y nie ma
+  magazynów] uruchamianie zaczyna się od ostatniego magazynu we wcześniejszym
+  fragmencie łańcucha.
+- dla końcówek (1,0) lub (0,1) zaczynamy uruchamianie od ostatniego bufora
+  w odnodze, a następnie, po otrzymaniu od wcześniejszego fragmentu łańcucha
+  danych - wysłanie ich do obu końcówek
+- dla końcówek (1,1) - trzeba najpierw uruchomić dwa magazyny końcowe, a
+  następnie przejść do wcześniejszego magazynu
+
+{
+Protokół na styku M->B:
+Q: SAND_SR
+A: liczba - tyle danych zostało pobranych
+A: RESULT_OFF - wystąpił błąd
+
+Q: SAND_OFF - coś się zepsuło, kończ pracę
+A: RESULT_OFF - potwierdzenie zakończenia
+
+Q: SAND_EOF - nie będzie więcej danych, kończ pracę
+A: RESULT_EOF - potwierdzenie zakończenia transmisji
+
+Protokół na styku B->M:
+- nie ma protokołu, powinna być odwrotna kolejność wywołania
+
+Protokół na styku Y->M:
+Q: SAND_GENERAL - pomocnicze uruchomienie łańcucha
+A: RESULT_OFF
+A: RESULT_EOF
+A: RESULT_AGAIN - wykonałem robotę, mogę to kiedyś powtorzyć
+
+Q: SAND_OFF - coś się zepsuło, kończ pracę wcześniejszych, późniejszych i swoją
+A: RESULT_OFF - potwierdzenie zakończenia
+
+Protokół na styku I->M (pierwsze uruchomienie):
+Q: SAND_GENERAL - uruchomienie łańcucha zadań
+A: RESULT_OFF - zepsuło się coś w czasie transmisji
+A: RESULT_EOF - koniec pracy
+A: RESULT_AGAIN - nielegalne, ale można potraktować, że to nigdy nie wraca
+
+Protokół na styku M<-B:
+Q: SAND_DQ - data query - ma zwrócić początek i ilość
+A: (adres, długość) - tyle danych mamy do wysłania, wszystkie dane muszą być
+pobrane
+A: RESULT_EOF
+A: RESULT_OFF
+A: RESULT_AGAIN
+
+Q: SAND_OFF - coś się zepsuło, kończ pracę wcześniejszych i swoją
+A: RESULT_OFF - potwierdzenie zakończenia
+
+Protokół na styku B<-M:
+Q: SAND_DR
+A: liczba - tyle danych wpisano do bufora
+A: RESULT_OFF
+A: RESULT_EOF
+A: RESULT_AGAIN
+
+Q: SAND_OFF - coś się zepsuło, kończ pracę wcześniejszych i swoją
+A: RESULT_OFF - potwierdzenie zakończenia
+}
+
+
+-----------------
+To do:
+- kopier - opóźnienie między przesyłami, aby uzyskać określoną szybkość w
+strumieniu danych
+- se - przesyłanie strumienia danych na standardowe wyjście błędu
+- acptr - przerobić go na typ "BM"
+- obsługa Ctrl-C (signal)
+- przerobienie "fsi" i "fso" na open/write (dla przyspieszenia)
+- poszukać w tekście "State = " - tego nie powinno być, bo wszystkie
+zmiany powinny się odbywać przez funkcję "ZmienStan"
+- sprawdzić, czy pliki 64-bitowe są czytane i pisane pod Windows
+- sprawdzić, czy pliki 64-bitowe są pisane pod Linuxem
+- sprawdzić, czy pod Windows generują się poprawnie pliki większe niż 2GB (gi)
+- skasować c.c
+
+
+WAŻNE:
+- aktualizacja interfejsów między procesami do wynegocjowanego protokołu
+
