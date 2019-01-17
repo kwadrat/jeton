@@ -36,8 +36,6 @@ $(BDIR)/%.o: %.cpp
 	$(CXX) $(CCFLAGS) -c $< -o $(@)
 clean:
 	rm $(BDIR)/*.d $(BDIR)/*.o $(BDIR)/$(TARGET)
-backup:
-	tar czvf /tmp/kopia_`date +%Y.%m.%d-%H.%M`.tgz *
 ${BDIR}:
 	mkdir ${BDIR}
 ifeq ($(MAKECMDGOALS), all)
