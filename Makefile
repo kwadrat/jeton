@@ -1,44 +1,42 @@
 TARGET = jeton
-OBJS = helpx.o logx.o masterx.o procx.o scmpx.o fsi.o fso.o fkopier.o fy.o fsmar.o semx.o fcat.o rvrx.o ffi.o ffo.o ftoc.o ftis.o ftos.o ftic.o facptr.o fgi.o fmd5.o $(TARGET).o
 CXX = c++
 CC = cc
 CMF = #-s -O6
 LDFLAGS = $(CMF) #-g
-CCFLAGS = $(CMF) -I /home/kwadrat/jgd/jeton/include -MD #-g
+CCFLAGS = $(CMF) -I /home/kwadrat/jgd/jeton/include -MD
 BDIR = build
 all: $(BDIR) $(BDIR)/$(TARGET)
 SDIR = src
 VPATH = $(SDIR)
 $(BDIR)/$(TARGET):
-	cd $(BDIR); $(CXX) $(LDFLAGS) -o $(TARGET) $(OBJS) -lpthread
-$(BDIR)/$(TARGET): helpx.o
-$(BDIR)/$(TARGET): helpx.o
-$(BDIR)/$(TARGET): logx.o
-$(BDIR)/$(TARGET): masterx.o
-$(BDIR)/$(TARGET): procx.o
-$(BDIR)/$(TARGET): scmpx.o
-$(BDIR)/$(TARGET): fsi.o
-$(BDIR)/$(TARGET): fso.o
-$(BDIR)/$(TARGET): fkopier.o
-$(BDIR)/$(TARGET): fy.o
-$(BDIR)/$(TARGET): fsmar.o
-$(BDIR)/$(TARGET): semx.o
-$(BDIR)/$(TARGET): fcat.o
-$(BDIR)/$(TARGET): rvrx.o
-$(BDIR)/$(TARGET): ffi.o
-$(BDIR)/$(TARGET): ffo.o
-$(BDIR)/$(TARGET): ftoc.o
-$(BDIR)/$(TARGET): ftis.o
-$(BDIR)/$(TARGET): ftos.o
-$(BDIR)/$(TARGET): ftic.o
-$(BDIR)/$(TARGET): facptr.o
-$(BDIR)/$(TARGET): fgi.o
-$(BDIR)/$(TARGET): fmd5.o
-$(BDIR)/$(TARGET): $(TARGET).o
+	$(CXX) $(LDFLAGS) -o $(BDIR)/$(TARGET) $(wildcard $(BDIR)/*.o) -lpthread
+$(BDIR)/$(TARGET): $(BDIR)/helpx.o
+$(BDIR)/$(TARGET): $(BDIR)/logx.o
+$(BDIR)/$(TARGET): $(BDIR)/masterx.o
+$(BDIR)/$(TARGET): $(BDIR)/procx.o
+$(BDIR)/$(TARGET): $(BDIR)/scmpx.o
+$(BDIR)/$(TARGET): $(BDIR)/fsi.o
+$(BDIR)/$(TARGET): $(BDIR)/fso.o
+$(BDIR)/$(TARGET): $(BDIR)/fkopier.o
+$(BDIR)/$(TARGET): $(BDIR)/fy.o
+$(BDIR)/$(TARGET): $(BDIR)/fsmar.o
+$(BDIR)/$(TARGET): $(BDIR)/semx.o
+$(BDIR)/$(TARGET): $(BDIR)/fcat.o
+$(BDIR)/$(TARGET): $(BDIR)/rvrx.o
+$(BDIR)/$(TARGET): $(BDIR)/ffi.o
+$(BDIR)/$(TARGET): $(BDIR)/ffo.o
+$(BDIR)/$(TARGET): $(BDIR)/ftoc.o
+$(BDIR)/$(TARGET): $(BDIR)/ftis.o
+$(BDIR)/$(TARGET): $(BDIR)/ftos.o
+$(BDIR)/$(TARGET): $(BDIR)/ftic.o
+$(BDIR)/$(TARGET): $(BDIR)/facptr.o
+$(BDIR)/$(TARGET): $(BDIR)/fgi.o
+$(BDIR)/$(TARGET): $(BDIR)/fmd5.o
+$(BDIR)/$(TARGET): $(BDIR)/$(TARGET).o
 %.o: %.c
 	$(CC) $(CCFLAGS) -c $< -o $(BDIR)/$(@)
-%.o: %.cpp
-	$(CXX) $(CCFLAGS) -c $< -o $(BDIR)/$(@)
+$(BDIR)/%.o: %.cpp
+	$(CXX) $(CCFLAGS) -c $< -o $(@)
 clean:
 	rm $(BDIR)/*.d $(BDIR)/*.o $(BDIR)/$(TARGET)
 backup:
