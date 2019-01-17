@@ -38,12 +38,6 @@ clean:
 	rm $(BDIR)/*.d $(BDIR)/*.o $(BDIR)/$(TARGET)
 backup:
 	tar czvf /tmp/kopia_`date +%Y.%m.%d-%H.%M`.tgz *
-win: ../j4win/Readme.txt
-../j4win/Readme.txt: $(TARGET)
-	SkrWin
-# Edycja pliku Makefile
-mk:
-	vi -u mk.txt Makefile
 ${BDIR}:
 	mkdir ${BDIR}
 ifeq ($(MAKECMDGOALS), all)
