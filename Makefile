@@ -4,6 +4,7 @@ CMF = #-s -O6
 LDFLAGS = $(CMF) #-g
 CCFLAGS = $(CMF) -I include -MD
 BDIR = build
+.PHONY: all clean
 all: $(BDIR) $(BDIR)/$(TARGET)
 SDIR = src
 VPATH = $(SDIR)
