@@ -1,6 +1,5 @@
 TARGET = jeton
 CXX = c++
-CC = cc
 CMF = #-s -O6
 LDFLAGS = $(CMF) #-g
 CCFLAGS = $(CMF) -I include -MD
