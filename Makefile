@@ -33,8 +33,6 @@ $(BDIR)/$(TARGET): $(BDIR)/facptr.o
 $(BDIR)/$(TARGET): $(BDIR)/fgi.o
 $(BDIR)/$(TARGET): $(BDIR)/fmd5.o
 $(BDIR)/$(TARGET): $(BDIR)/$(TARGET).o
-%.o: %.c
-	$(CC) $(CCFLAGS) -c $< -o $(BDIR)/$(@)
 $(BDIR)/%.o: %.cpp
 	$(CXX) $(CCFLAGS) -c $< -o $(@)
 clean:
