@@ -4,6 +4,7 @@ CC= cc
 CMF= #-s -O6
 LDFLAGS= $(CMF) #-g
 CCFLAGS= $(CMF) #-g
+BDIR = build
 all: 	jeton
 jeton: $(OBJS) jeton.cpp
 	$(CXX) $(LDFLAGS) -o jeton jeton.cpp $(OBJS) -lpthread
@@ -43,3 +44,5 @@ win: ../j4win/Readme.txt
 # Edycja pliku Makefile
 mk:
 	vi -u mk.txt Makefile
+${BDIR}:
+	@mkdir ${BDIR}
