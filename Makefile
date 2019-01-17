@@ -3,7 +3,7 @@ CXX = c++
 CC = cc
 CMF = #-s -O6
 LDFLAGS = $(CMF) #-g
-CCFLAGS = $(CMF) -I /home/kwadrat/jgd/jeton/include -MD
+CCFLAGS = $(CMF) -I include -MD
 BDIR = build
 all: $(BDIR) $(BDIR)/$(TARGET)
 SDIR = src
