@@ -37,8 +37,8 @@ $(BDIR)/%.o: %.cpp
 	$(CXX) $(CCFLAGS) -c $< -o $(@)
 clean:
 	rm $(BDIR)/*.d $(BDIR)/*.o $(BDIR)/$(TARGET)
-${BDIR}:
-	mkdir ${BDIR}
+$(BDIR):
+	mkdir $(BDIR)
 ifeq ($(MAKECMDGOALS), all)
     include ${wildcard $(BDIR)/*.d}
 endif
