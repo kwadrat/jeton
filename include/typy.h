@@ -43,6 +43,8 @@
 
 #include <stdio.h>
 
+#include "jeton.h"
+
 /* Konfiguracja działania programu */
 
 /* UWAGA: Ta zmienna jeszcze nie jest nigdzie wykorzystywana. */
@@ -104,8 +106,11 @@
 /* OFF - sygnalizacja, że system ma się wyłączyć */
 #define SAND_OFF (-8)
 
-#define SygError(x) fprintf(stderr, "!!! Plik \"%s\" Linia %d, \"%s\"\n",\
-                            __FILE__, __LINE__, (x))
+#define SygError(x) do { \
+    fprintf(stderr, "!!! Plik \"%s\" Linia %d, \"%s\"\n",\
+        __FILE__, __LINE__, (x)); \
+        error_occured = 1; \
+    } while(0)
 
 #define SygErrorParm(x,y) \
 { \
