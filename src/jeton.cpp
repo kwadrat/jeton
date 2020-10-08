@@ -5,6 +5,7 @@
 #include "logx.h"
 #include "masterx.h"
 #include "rvrx.h"
+#include "jeton.h"
 
 #include <assert.h>
 
@@ -24,6 +25,8 @@ char * Tablica[ROZMIAR_TAB] = {
 "1"
 };
 #endif
+
+int error_occured;
 
 int main(int argc, char * argv[])
 {
@@ -72,7 +75,7 @@ int main(int argc, char * argv[])
 #if AKTYWNY_RIVER
  TopRiver.Finish();
 #endif
- return 0;
+ return error_occured;
 }
 
 /******************************************************************************/
