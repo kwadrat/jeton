@@ -1,8 +1,9 @@
 TARGET = jeton
 CXX = c++
 CMF = #-s -O6
+NET_SIMPLE = 0
 LDFLAGS = $(CMF) #-g
-CCFLAGS = $(CMF) -I include -MD
+CCFLAGS = $(CMF) -D NET_SIMPLE=$(NET_SIMPLE) -I include -MD
 BDIR = build
 .PHONY: all clean
 all: $(BDIR) $(BDIR)/$(TARGET)

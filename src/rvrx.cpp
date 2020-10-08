@@ -303,7 +303,11 @@ int River::FillAddress(struct sockaddr_in * sin, char * napis)
  }
  else
  {
-  host = gethostbyname(napis);
+  #if NET_SIMPLE
+      host = numeric_ip_to_implement(napis);
+  #else // NET_SIMPLE
+      host = gethostbyname(napis);
+  #endif // NET_SIMPLE
   if(host != NULL)
   {
    memcpy( & (sin->sin_addr.s_addr), host->h_addr_list[0], host->h_length);
@@ -326,7 +330,11 @@ int River::FillPort(struct sockaddr_in * sin, char * napis)
  int status;
  struct servent * pse;
  status = 0;
- pse = getservbyname(napis, "tcp");
+ #if NET_SIMPLE
+     pse = numeric_port_to_implement(napis);
+ #else // NET_SIMPLE
+     pse = getservbyname(napis, "tcp");
+ #endif // NET_SIMPLE
  if(pse != NULL)
  {
   sin->sin_port = pse->s_port;
