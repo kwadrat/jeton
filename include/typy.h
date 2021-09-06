@@ -167,5 +167,7 @@ typedef unsigned char Byte;
 #define KIER_WSTECZ (-18)
 /* Nieznany kierunek zmian, powiadom obie strony */
 #define KIER_INNY (-19)
+/* Wartość zwracana, gdy wysłano wszystkie bajty wiadomości. */
+#define RESULT_ALL_SENT (-20)
 
 #endif
