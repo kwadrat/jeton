@@ -103,6 +103,38 @@ int md5_Class::Work(int kmn, Byte * poczatek, int ile)
     return status;
 }
 
+int md5_Class::DisplayState(void)
+{
+    int limit; /* Tyle znaków trzeba wysyłać do następnego procesu */
+    int suma; /* Liczba znaków dotychczas wysłanych */
+    char FnlText[32]; /* Suma kontrolna - powinno wystarczyć na 3x8, spacje, CR/LF, końcowe zero */
+    int status = RESULT_ALL_SENT;
+    int r2;
+    sprintf(FnlText, "%08x %08x %08x\n", AddBuff, XorBuff, SubBuff);
+    limit = strlen(FnlText);
+    suma = 0;
+    do
+    {
+        r2 = NextProcess->Work(SAND_SR, (Byte *) FnlText + suma, limit - suma);
+        if(r2 != RESULT_OFF)
+        {
+            assert(r2 >= 0);
+            assert(r2 > 0); /* Podwójna asercja, aby wykryć zero */
+            suma += r2;
+            assert(suma <= limit);
+        }
+        else
+        {
+            SygError("Drugi proces zawiódł");
+            ZmienStan(STATE_OFF, KIER_WSTECZ);
+                status = RESULT_OFF;
+                break; /* Wyjście z pętli do {} while (); */
+        }
+    }
+    while(suma < limit);
+    return status;
+}
+
 int md5_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
 {
     int r1, r2;
