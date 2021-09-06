@@ -14,6 +14,7 @@ class md5_Class : public ProcessClass
     int BufSize;
     Byte * BufPtr;
     int BufIle; /* Liczba danych w buforze */
+    int bytes_so_far;
     void StartingValues(void);
     int DisplayState(void);
     void ProcessFullBlock(int bt_count);

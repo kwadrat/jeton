@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#define SIZE_FOR_REPORT (1024 * 1024 * 1024)
+
 md5_Class::md5_Class(void)
 {
     RodzajWej = 'M';
@@ -159,6 +161,11 @@ int md5_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
                     if(BufIle == BufSize)
                     {
                         /* "BufIle" musi być podzielny przez 4 */
+                        if(bytes_so_far >= SIZE_FOR_REPORT)
+                        {
+                            DisplayState();
+                            StartingValues();
+                        }
                         ProcessFullBlock(BufIle);
                         BufIle = 0;
                     }
@@ -206,6 +213,7 @@ void md5_Class::StartingValues(void)
     AddBuff = 0;
     XorBuff = 0;
     SubBuff = 0x9e3b0d12; /* Random number */
+    bytes_so_far = 0;
 }
 
 void md5_Class::ProcessFullBlock(int bt_count)
@@ -230,6 +238,7 @@ void md5_Class::ProcessFullBlock(int bt_count)
                 SubBuff |= 1;
             }
         }
+        bytes_so_far += bt_count;
     }
     else
     {
