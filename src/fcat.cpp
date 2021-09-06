@@ -6,15 +6,11 @@
 
 #include <string.h>
 
-/******************************************************************************/
-
 cat_Class::cat_Class(void)
 {
  RodzajWej = 'B';
  RodzajWyj = 'B';
 }
-
-/******************************************************************************/
 
 void cat_Class::LocalDestructor(void)
 {
@@ -26,15 +22,11 @@ void cat_Class::LocalDestructor(void)
  }
 }
 
-/******************************************************************************/
-
 /* Nie potrzebujemy żadnych parametrów */
 int cat_Class::Init(int argc, char *argv[])
 {
  return 1;
 }
-
-/******************************************************************************/
 
 int cat_Class::Work(int kmn, Byte * poczatek, int ile)
 {
@@ -77,8 +69,6 @@ int cat_Class::Work(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 int cat_Class::Obsluga_SAND_SR(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -105,8 +95,6 @@ int cat_Class::Obsluga_SAND_SR(int kmn, Byte * poczatek, int ile)
  DIAGNA2("QAZ: cat_SAND_SR zwrócił %d\n", status);
  return status;
 }
-
-/******************************************************************************/
 
 int cat_Class::Obsluga_SAND_DR(int kmn, Byte * poczatek, int ile)
 {
@@ -157,8 +145,6 @@ int cat_Class::Obsluga_SAND_DR(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 int cat_Class::Obsluga_SAND_EOF(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -176,15 +162,11 @@ int cat_Class::Obsluga_SAND_EOF(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 int cat_Class::Obsluga_SAND_OFF(int kmn, Byte * poczatek, int ile)
 {
  assert(ile == KIER_PROSTO);
  ZmienStan(STATE_OFF, ile);
  return RESULT_OFF;
 }
-
-/******************************************************************************/
 
 #endif

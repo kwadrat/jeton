@@ -4,8 +4,6 @@
 #include <string.h>
 #include <assert.h>
 
-/******************************************************************************/
-
 kopier_Class::kopier_Class(void)
 {
  RodzajWej = 'M';
@@ -15,8 +13,6 @@ kopier_Class::kopier_Class(void)
  BufDelayD = 0; /* Na początku nie opóźniamy transmisji */
  BufDanych = 0; /* Na początku nie ma żadnych danych w buforze */
 }
-
-/******************************************************************************/
 
 void kopier_Class::LocalDestructor(void)
 {
@@ -34,8 +30,6 @@ void kopier_Class::LocalDestructor(void)
   BufDanych = 0;
  }
 }
-
-/******************************************************************************/
 
 /* Jedynym parametrem jest liczba bajtów w buforze */
 int kopier_Class::Init(int argc, char *argv[])
@@ -101,8 +95,6 @@ int kopier_Class::Init(int argc, char *argv[])
  return status;
 }
 
-/******************************************************************************/
-
 int kopier_Class::Work(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -132,8 +124,6 @@ int kopier_Class::Work(int kmn, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/
 
 int kopier_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
 {
@@ -271,13 +261,9 @@ int kopier_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 int kopier_Class::Obsluga_SAND_OFF(int kmn, Byte * poczatek, int ile)
 {
  assert(ile == KIER_PROSTO);
  ZmienStan(STATE_OFF, ile);
  return RESULT_OFF;
 }
-
-/******************************************************************************/

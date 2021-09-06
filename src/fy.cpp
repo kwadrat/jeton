@@ -2,16 +2,12 @@
 #include "typy.h"
 #include <assert.h>
 
-/******************************************************************************/
-
 y_Class::y_Class(void)
 {
  RodzajWej = 'B';
  RodzajWyj = 'M';
  OtherProcess = NULL;
 }
-
-/******************************************************************************/
 
 void y_Class::LocalDestructor(void)
 {
@@ -29,16 +25,12 @@ void y_Class::LocalDestructor(void)
  }
 }
 
-/******************************************************************************/
-
 int y_Class::Init(int, char *[])
 {
  /* Zużywamy tylko jeden argument, a nie potrzebujemy się specjalnie
   * inicjalizować */
  return 1;
 }
-
-/******************************************************************************/
 
 int y_Class::Work(int kmn, Byte * poczatek, int ile)
 {
@@ -73,8 +65,6 @@ int y_Class::Work(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 ProcessClass * y_Class::FindUnusedPointer(void)
 {
  ProcessClass * tmp;
@@ -108,8 +98,6 @@ ProcessClass * y_Class::FindUnusedPointer(void)
  return tmp;
 }
 
-/******************************************************************************/
-
 /* Podłącza w wolne miejsce wskaźnik następnego procesu. Wartość zwracana:
 1 - OK, 0 - błąd */
 int y_Class::ConnectPointer(ProcessClass * proc)
@@ -137,8 +125,6 @@ int y_Class::ConnectPointer(ProcessClass * proc)
  }
  return status;
 }
-
-/******************************************************************************/
 
 /* Zmienia stan obiektu na podany. Jeśli to jest zmiana na STATE_OFF,
 to od razu powiadamia sąsiadów z obu stron. */
@@ -170,15 +156,11 @@ void y_Class::ZmienStan(int nowy, int kier)
  }
 }
 
-/******************************************************************************/
-
 int y_Class::Obsluga_SAND_OFF(int kmn, Byte * poczatek, int ile)
 {
  ZmienStan(STATE_OFF, ile);
  return RESULT_OFF;
 }
-
-/******************************************************************************/
 
 int y_Class::Obsluga_SAND_EOF(int kmn, Byte * poczatek, int ile)
 {
@@ -189,8 +171,6 @@ int y_Class::Obsluga_SAND_EOF(int kmn, Byte * poczatek, int ile)
  OtherProcess->Work(kmn, poczatek, ile);
  return RESULT_EOF; /* To chyba nie jest istotne, bo na to nikt nie czeka */
 }
-
-/******************************************************************************/
 
 int y_Class::Obsluga_SAND_SR(int kmn, Byte * poczatek, int ile)
 {
@@ -245,8 +225,6 @@ int y_Class::Obsluga_SAND_SR(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 /* Tworzenie nowych wątków dla obsługi systemu i budzenie ich.
 Wartość zwrotna: 1 - OK (udało się pomyślnie utworzyć nowe wątki),
 0 - błąd (możemy kończyć pracę systemu, bo się nie udał przydział wątków */
@@ -267,5 +245,3 @@ int y_Class::Rozszczepianie(void)
  }
  return status;
 }
-
-/******************************************************************************/

@@ -4,16 +4,12 @@
 #include <stdio.h>
 #include <errno.h>
 
-/******************************************************************************/
-
 fo_Class::fo_Class(void)
 {
  RodzajWej = 'B';
  RodzajWyj = '-';
  plik = -1;
 }
-
-/******************************************************************************/
 
 void fo_Class::LocalDestructor(void)
 {
@@ -23,8 +19,6 @@ void fo_Class::LocalDestructor(void)
   plik = -1;
  }
 }
-
-/******************************************************************************/
 
 int fo_Class::Init(int argc, char * argv[])
 {
@@ -48,8 +42,6 @@ int fo_Class::Init(int argc, char * argv[])
  }
  return status;
 }
-
-/******************************************************************************/
 
 int fo_Class::Work(int kmn, Byte * poczatek, int ile)
 {
@@ -99,5 +91,3 @@ int fo_Class::Work(int kmn, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/

@@ -1,19 +1,13 @@
 #include "masterx.h"
 
-/******************************************************************************/
-
 MasterClass::MasterClass(void)
 {
  HeadPtr = NULL;
 }
 
-/******************************************************************************/
-
 MasterClass::~MasterClass(void)
 {
 }
-
-/******************************************************************************/
 
 void MasterClass::LocalDestructor(void)
 {
@@ -24,8 +18,6 @@ void MasterClass::LocalDestructor(void)
   HeadPtr = NULL;
  }
 }
-
-/******************************************************************************/
 
 /* Dopisuje do łańcucha procesów nowy proces.
  * Wartość zwrotna: 1 - OK, 0 - błąd */
@@ -70,8 +62,6 @@ int MasterClass::AddProcess(ProcessClass * proc)
  return status;
 }
 
-/******************************************************************************/
-
 /* Uruchamia cały łańcuch zdefiniowanych procedur */
 void MasterClass::RunProcesses(void)
 {
@@ -85,8 +75,6 @@ void MasterClass::RunProcesses(void)
   SygError("Brak procesów w ciągu.");
  }
 }
-
-/******************************************************************************/
 
 /* Sprawdza, czy łańcuch jest kompletny. Wartość zwrotna: 1 - łańcuch jest
  * kompletny (nic się już nie da do niego dodać), 0 - do łańcucha wciąż można
@@ -112,5 +100,3 @@ int MasterClass::CheckComplete(void)
  }
  return status;
 }
-
-/******************************************************************************/

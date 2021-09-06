@@ -5,15 +5,11 @@
 #include <assert.h>
 #include <errno.h>
 
-/******************************************************************************/
-
 tic_Class::tic_Class(void)
 {
  RodzajWej = '-';
  RodzajWyj = 'B';
 }
-
-/******************************************************************************/
 
 void tic_Class::LocalDestructor(void)
 {
@@ -29,8 +25,6 @@ void tic_Class::LocalDestructor(void)
   NextProcess = NULL;
  }
 }
-
-/******************************************************************************/
 
 int tic_Class::Init(int argc, char * argv[])
 {
@@ -54,8 +48,6 @@ int tic_Class::Init(int argc, char * argv[])
  }
  return status;
 }
-
-/******************************************************************************/
 
 int tic_Class::Work(int kmn, Byte * poczatek, int ile)
 {

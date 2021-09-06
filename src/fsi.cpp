@@ -3,15 +3,11 @@
 #include <stdio.h>
 #include <assert.h>
 
-/******************************************************************************/
-
 si_Class::si_Class(void)
 {
  RodzajWej = '-';
  RodzajWyj = 'B';
 }
-
-/******************************************************************************/
 
 void si_Class::LocalDestructor(void)
 {
@@ -23,14 +19,10 @@ void si_Class::LocalDestructor(void)
  }
 }
 
-/******************************************************************************/
-
 int si_Class::Init(int, char *[])
 {
  return 1;
 }
-
-/******************************************************************************/
 
 int si_Class::Work(int kmn, Byte * poczatek, int ile)
 {

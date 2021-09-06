@@ -2,8 +2,6 @@
 
 #include <assert.h>
 
-/******************************************************************************/
-
 ProcessClass::ProcessClass(void)
 {
  State = STATE_ON;
@@ -12,8 +10,6 @@ ProcessClass::ProcessClass(void)
  PrevProcess = NULL;
  NextProcess = NULL;
 }
-
-/******************************************************************************/
 
 void ProcessClass::LocalDestructor(void)
 {
@@ -25,15 +21,10 @@ void ProcessClass::LocalDestructor(void)
  }
 }
 
-
-/******************************************************************************/
-
 ProcessClass::~ProcessClass(void)
 {
  LocalDestructor();
 }
-
-/******************************************************************************/
 
 int ProcessClass::Init(int, char *[])
 {
@@ -41,15 +32,11 @@ int ProcessClass::Init(int, char *[])
  return RESULT_OFF;
 }
 
-/******************************************************************************/
-
 int ProcessClass::Work(int, Byte *, int)
 {
  SygError("To nie powinno być wywoływane");
  return 0;
 }
-
-/******************************************************************************/
 
 ProcessClass * ProcessClass::FindUnusedPointer(void)
 {
@@ -70,8 +57,6 @@ ProcessClass * ProcessClass::FindUnusedPointer(void)
  return tmp;
 }
 
-/******************************************************************************/
-
 /* Podłącza w wolne miejsce wskaźnik następnego procesu. Wartość zwracana:
 1 - OK, 0 - błąd */
 int ProcessClass::ConnectPointer(ProcessClass * proc)
@@ -90,8 +75,6 @@ int ProcessClass::ConnectPointer(ProcessClass * proc)
  }
  return status;
 }
-
-/******************************************************************************/
 
 /* Sprawdza, czy do aktualnego obiektu można podłączyć następny obiekt.
 Dozwolone są tylko połączenia "B->M" i "M->B". Wartość zwrotna: 1 - typy
@@ -120,8 +103,6 @@ int ProcessClass::ZgodnyTyp(ProcessClass *proc)
  return status;
 }
 
-/******************************************************************************/
-
 /* Funkcja sprawdza, czy podany proces może pracować jako proces wejściowy.
 Wartość zwrotna: 1 - tak, 0 - nie */
 int ProcessClass::ProcesWejsciowy(void)
@@ -134,8 +115,6 @@ int ProcessClass::ProcesWejsciowy(void)
  }
  return status;
 }
-
-/******************************************************************************/
 
 /* Zmienia stan obiektu na podany. Jeśli to jest zmiana na STATE_OFF,
 to od razu powiadamia sąsiadów z obu stron. */
@@ -163,8 +142,6 @@ void ProcessClass::ZmienStan(int nowy, int kier)
  }
 }
 
-/******************************************************************************/
-
 /* Tworzenie nowych wątków dla obsługi systemu i budzenie ich.
 Wartość zwrotna: 1 - OK (udało się pomyślnie utworzyć nowe wątki),
 0 - błąd (możemy kończyć pracę systemu, bo się nie udał przydział wątków */
@@ -178,5 +155,3 @@ int ProcessClass::Rozszczepianie(void)
  }
  return status;
 }
-
-/******************************************************************************/

@@ -10,14 +10,10 @@
  * kierowane, jeśli chcemy robić coś z siecią TCP. */
 River TopRiver;
 
-/******************************************************************************/
-
 River::River(void)
 {
  aktywna = 0; /* Jeszcze nikt nie chciał pracować w sieci TCP */
 }
-
-/******************************************************************************/
 
 /* Przygotowuje sieć do działania. Funkcja może być wywoływana wielokrotnie,
  * ale zadziała tylko raz, za pierwszym wywołaniem. Wartość zwrotna: 1 - OK,
@@ -43,8 +39,6 @@ int River::Init(void)
  return status;
 }
 
-/******************************************************************************/
-
 void River::Finish(void)
 {
  if(aktywna)
@@ -55,8 +49,6 @@ void River::Finish(void)
   aktywna = 0;
  }
 }
-
-/******************************************************************************/
 
 /* Zaczyna nasłuchiwać na podanym porcie nadchodzącego połączenia TCP. Zwracany
  * jest numer socketu lub -1 dla poinformowania o błędnym zadziałaniu. */
@@ -135,8 +127,6 @@ int River::OpenDaemonTCP(char * PortName)
  return status;
 }
 
-/******************************************************************************/
-
 /* Podłącza się do podanego hosta na podany numer portu TCP. Zwracany jest
  * numer socketu lub -1 dla poinformowania o błędnym zadziałaniu. */
 int River::OpenClientTCP(char * HostName, char * PortName)
@@ -181,8 +171,6 @@ int River::OpenClientTCP(char * HostName, char * PortName)
  return status;
 }
 
-/******************************************************************************/
-
 /* Wartość zwrotna: liczba wysłanych bajtów. Zakładamy, że funkcja będzie
  * wywoływana tylko z dodatnią liczbą bajtów do wysłania. Wartość zwrotna może
  * być ujemna, co sugeruje błąd w czasie transmisji. */
@@ -216,8 +204,6 @@ int River::SendMultiTCP(int s, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/
 
 /* Wartość zwrotna: liczba odebranych bajtów. Zakładamy, że funkcja może być
  * wywoływana tylko z dodatnim licznikiem bajtów. Jeśli skończyły się dane, to
@@ -274,8 +260,6 @@ int River::RecvMultiTCP(int s, Byte * poczatek, int ile, int * eof_flag)
  return status;
 }
 
-/******************************************************************************/
-
 /* Zwraca identyfikator gniazdka (jeśli ujemny, to wystąpił błąd) */
 int River::InitStruct(struct sockaddr_in * sin)
 {
@@ -286,8 +270,6 @@ int River::InitStruct(struct sockaddr_in * sin)
  s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
  return s;
 }
-
-/******************************************************************************/
 
 /* W podanej strukturze wypełnia pole adresu IP. Wartość zwrotna: 1 - OK,
  * 0 - błąd */
@@ -321,8 +303,6 @@ int River::FillAddress(struct sockaddr_in * sin, char * napis)
  return status;
 }
 
-/******************************************************************************/
-
 /* W podanej strukturze wypełnia pole portu IP. Wartość zwrotna: 1 - OK,
  * 0 - błąd */
 int River::FillPort(struct sockaddr_in * sin, char * napis)
@@ -355,8 +335,6 @@ int River::FillPort(struct sockaddr_in * sin, char * napis)
  return status;
 }
 
-/******************************************************************************/
-
 #if PLATFORM_LINUX
 void River::CloseSocketTCP(int s)
 {
@@ -364,15 +342,11 @@ void River::CloseSocketTCP(int s)
 }
 #endif
 
-/******************************************************************************/
-
 #if PLATFORM_WIN
 void River::CloseSocketTCP(SOCKET s)
 {
  closesocket(s);
 }
 #endif
-
-/******************************************************************************/
 
 #endif

@@ -5,15 +5,11 @@
 #include <assert.h>
 #include <errno.h>
 
-/******************************************************************************/
-
 tis_Class::tis_Class(void)
 {
  RodzajWej = '-';
  RodzajWyj = 'B';
 }
-
-/******************************************************************************/
 
 void tis_Class::LocalDestructor(void)
 {
@@ -29,8 +25,6 @@ void tis_Class::LocalDestructor(void)
   NextProcess = NULL;
  }
 }
-
-/******************************************************************************/
 
 int tis_Class::Init(int argc, char * argv[])
 {
@@ -54,8 +48,6 @@ int tis_Class::Init(int argc, char * argv[])
  }
  return status;
 }
-
-/******************************************************************************/
 
 int tis_Class::Work(int kmn, Byte * poczatek, int ile)
 {

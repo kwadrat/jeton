@@ -27,8 +27,6 @@ extern MasterClass TopMember;
 
 #define IleArgumentow (n - index) /* Liczba pozostałych argumentów */
 
-/******************************************************************************/
-
 /* Funkcja do przetwarzania wprowadzonych z klawiatury i powtarzających się
  * sekwencji analizy napisu wejściowego. Wartość zwracana: 1 - OK, 0 - wystąpił
  * błąd, który nie pozwala na kontynuację działania. */
@@ -69,8 +67,6 @@ int CreateChainLink(void * ogniwo, const char * NazwaTypu, int * index, int n,
  return status;
 }
 
-/******************************************************************************/
-
 /* Funkcja sprawdza, czy łańcuch jest kompletny. Łańcuch jest taki, jeśli nie
  * można już dodać żadnego ogniwa. Wartość zwracana: 1 - łańcuch jest
  * kompletny, 0 - do łańcucha da się jeszcze coś dodać, co oznacza że
@@ -80,8 +76,6 @@ int CheckChainComplete(void)
 {
  return TopMember.CheckComplete();
 }
-
-/******************************************************************************/
 
 /* Funkcja tworzy łańcuch (a właściwie drzewo, bo mogą w nim występować
 rozgałęzienia) struktur (obiektów pochodnych klasy ProcessClass). Jeśli
@@ -180,5 +174,3 @@ int CreateChainLogic(int n, char * s[])
  }
  return status;
 }
-
-/******************************************************************************/

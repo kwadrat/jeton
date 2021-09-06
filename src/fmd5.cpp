@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-/******************************************************************************/
-
 md5_Class::md5_Class(void)
 {
     RodzajWej = 'M';
@@ -15,8 +13,6 @@ md5_Class::md5_Class(void)
     BufSize = 0;
     BufPtr = NULL;
 }
-
-/******************************************************************************/
 
 void md5_Class::LocalDestructor(void)
 {
@@ -34,8 +30,6 @@ void md5_Class::LocalDestructor(void)
     }
 }
 
-/******************************************************************************/
-
 /* Jedynym parametrem jest liczba bajtów w buforze */
 int md5_Class::Init(int argc, char *argv[])
 {
@@ -45,8 +39,6 @@ int md5_Class::Init(int argc, char *argv[])
     status = RESULT_OFF;
     return status;
 }
-
-/******************************************************************************/
 
 int md5_Class::Work(int kmn, Byte * poczatek, int ile)
 {
@@ -78,8 +70,6 @@ int md5_Class::Work(int kmn, Byte * poczatek, int ile)
     return status;
 }
 
-/******************************************************************************/
-
 int md5_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
 {
     int status;
@@ -88,15 +78,11 @@ int md5_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
     return status;
 }
 
-/******************************************************************************/
-
 int md5_Class::Obsluga_SAND_OFF(int kmn, Byte * poczatek, int ile)
 {
     assert(ile == KIER_PROSTO);
     ZmienStan(STATE_OFF, ile);
     return RESULT_OFF;
 }
-
-/******************************************************************************/
 
 #endif

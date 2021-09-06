@@ -3,8 +3,6 @@
 
 #define THIS_PROGRAM_VERSION "1.00"
 
-/******************************************************************************/
-
 /* Funkcja zwraca 1, gdy użytkownik prosi o pomoc w obsłudze programu. Jeśli nie zostanie
 rozpoznana żadna opcja odnośnie pomocy, to zwracana jest wartość 0. */
 int WantHelp(char *s)
@@ -22,9 +20,6 @@ int WantHelp(char *s)
  }
  return status;
 }
-
-/******************************************************************************/
-
 
 void ShowHelp(int, char *[])
 {
@@ -44,5 +39,3 @@ void ShowHelp(int, char *[])
  puts("tos >-]");
  puts("toc >-]");
 }
-
-/******************************************************************************/

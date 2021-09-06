@@ -9,7 +9,6 @@
 
 #include <assert.h>
 
-/******************************************************************************/
 MasterClass TopMember; /* Tu jest definicja jedynego obiektu tej klasy */
 
 #define TESTOWANIE 0
@@ -77,5 +76,3 @@ int main(int argc, char * argv[])
 #endif
  return error_occured;
 }
-
-/******************************************************************************/

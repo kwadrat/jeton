@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-/******************************************************************************/
-
 smar_Class::smar_Class(void)
 {
  RodzajWej = 'M';
@@ -19,8 +16,6 @@ smar_Class::smar_Class(void)
  PrawyMiejsce = 0;
  PrawyZajete = 0;
 }
-
-/******************************************************************************/
 
 void smar_Class::LocalDestructor(void)
 {
@@ -42,8 +37,6 @@ void smar_Class::LocalDestructor(void)
   Dane = NULL;
  }
 }
-
-/******************************************************************************/
 
 /* Funkcja dokonuje przydziału pamięci i inicjalizuje odpowiednie bufory. W
  * buforze pamięci najpierw jest tablica wartości typu "int" z opisem stanu
@@ -95,8 +88,6 @@ int smar_Class::AdvancedInit(int ile, int rozmiar)
  }
  return status;
 }
-
-/******************************************************************************/
 
 int smar_Class::Init(int argc, char *argv[])
 {
@@ -152,8 +143,6 @@ int smar_Class::Init(int argc, char *argv[])
  return status;
 }
 
-/******************************************************************************/
-
 int smar_Class::Work(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -185,8 +174,6 @@ int smar_Class::Work(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 /* Ta funkcja może być wywoływana tylko przez pierwszy proces dla bufora,
 drugi proces nie może zmieniać statusu tego bufora. */
 void smar_Class::ZmienStan(int nowy, int kier)
@@ -217,8 +204,6 @@ void smar_Class::ZmienStan(int nowy, int kier)
  }
 }
 
-/******************************************************************************/
-
 /* Wykonywane w osobnym wątku. Kolejne wątki są tworzone od lewej do prawej
  * i od razu są uaktywniane. Może dojść do sytuacji, gdy nie wszystkie procesy
  * zostaną poprawnie utworzone i wtedy trzeba usunąć taką połowicznie utworzoną
@@ -232,8 +217,6 @@ int smar_Class::FunkcjaWatka(void)
  status = Work(SAND_GENERAL, NULL, KIER_WSTECZ); /* Wykonywane dla bufora "this" */
  return status;
 }
-
-/******************************************************************************/
 
 /* Funkcja pomocnicza do uruchamiania w osobnym wątku obsługi elementu
  * łańcucha, po to, aby rozszczepiany wątek startował w zwykłej funkcji, a nie
@@ -258,8 +241,6 @@ DWORD WINAPI xFunkcjaWatka(LPVOID wsk)
  return (DWORD) NULL;
 }
 #endif
-
-/******************************************************************************/
 
 /* Wykonuje rzeczywiste odszczepienie wątku. Wartość zwrotna: 1 - OK,
 0 - błąd */
@@ -304,8 +285,6 @@ int smar_Class::DodajWatek(void)
  return status;
 }
 
-/******************************************************************************/
-
 /* Funkcja czeka na wątek, który powinien się zakończyć */
 void smar_Class::PoczekajNaWatek(void)
 {
@@ -325,8 +304,6 @@ void smar_Class::PoczekajNaWatek(void)
 
 }
 
-/******************************************************************************/
-
 /* Tworzenie nowych wątków dla obsługi systemu i budzenie ich.
 Wartość zwrotna: 1 - OK (udało się pomyślnie utworzyć nowe wątki),
 0 - błąd (możemy kończyć pracę systemu, bo się nie udał przydział wątków */
@@ -344,8 +321,6 @@ int smar_Class::Rozszczepianie(void)
  }
  return status;
 }
-
-/******************************************************************************/
 
 /* Parametr "ile=KIER_PROSTO" - wykonujemy pierwszy wątek nad buforem,
  * "ile=KIER_WSTECZ" - wykonujemy drugi wątek nad buforem. */
@@ -365,8 +340,6 @@ int smar_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 /* Parametr "ile=0" - wykonujemy pierwszy wątek nad buforem, "ile=1" -
  * wykonujemy drugi wątek nad buforem. */
 int smar_Class::Obsluga_SAND_OFF(int kmn, Byte * poczatek, int ile)
@@ -379,8 +352,6 @@ int smar_Class::Obsluga_SAND_OFF(int kmn, Byte * poczatek, int ile)
  DostDane.SemV();
  return RESULT_OFF;
 }
-
-/******************************************************************************/
 
 /* Proces zapisujący dane do wspólnego bufora. Pracujemy do momentu, gdy będzie
  * komunikat RESULT_OFF z prawej strony lub w odpowiedzi na SAND_DR otrzymamy
@@ -511,8 +482,6 @@ int smar_Class::Obsluga_SAND_GENERAL_Dla_Lewego(void)
  return status;
 }
 
-/******************************************************************************/
-
 /* Proces pobierający dane ze wspólnego bufora */
 int smar_Class::Obsluga_SAND_GENERAL_Dla_Prawego(void)
 {
@@ -605,7 +574,5 @@ int smar_Class::Obsluga_SAND_GENERAL_Dla_Prawego(void)
 
  return status;
 }
-
-/******************************************************************************/
 
 #endif

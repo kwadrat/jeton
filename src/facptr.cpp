@@ -4,16 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-/******************************************************************************/
-
 acptr_Class::acptr_Class(void)
 {
  RodzajWej = 'B';
  RodzajWyj = '-';
  RTab = NULL;
 }
-
-/******************************************************************************/
 
 void acptr_Class::LocalDestructor(void)
 {
@@ -23,8 +19,6 @@ void acptr_Class::LocalDestructor(void)
   RTab = NULL;
  }
 }
-
-/******************************************************************************/
 
 /* Do zmiennej t5 wrzucamy aktualny czas */
 void acptr_Class::AktualnyCzas(void)
@@ -41,8 +35,6 @@ void acptr_Class::AktualnyCzas(void)
  t5 = GetTickCount();
 #endif
 }
-
-/******************************************************************************/
 
 
 #ifdef PLATFORM_LINUX
@@ -103,8 +95,6 @@ int acptr_Class::WyliczCzasDelta(DWORD a, DWORD b)
 }
 #endif
 
-/******************************************************************************/
-
 /* Sprawdza, czy t4 <= t5 na osi czasu. Jeśli tak, to wartość zwrotna = 1,
 w przeciwnym razie wartość zwrotna to 0. */
 int acptr_Class::Chronologicznie(void)
@@ -127,8 +117,6 @@ int acptr_Class::Chronologicznie(void)
 #endif
  return status;
 }
-
-/******************************************************************************/
 
 /* Generuje raport co krótki okres czasu, wielokrotnie w czasie transmisji */
 void acptr_Class::RaportOkresowy(void)
@@ -160,8 +148,6 @@ void acptr_Class::RaportOkresowy(void)
  t3 = t5;
 }
 
-/******************************************************************************/
-
 /* Generuje końcowy raport */
 void acptr_Class::RaportKoncowy(void)
 {
@@ -189,8 +175,6 @@ void acptr_Class::RaportKoncowy(void)
  }
 #endif
 }
-
-/******************************************************************************/
 
 /* Informuje o tym, że interesują nas przyrosty wartości w poszczególnych
  * okresach, a nie wartości od początku transmisji. W wyniku tego dostajemy o
@@ -235,8 +219,6 @@ void acptr_Class::DumpRTable(void)
   RMax = RAkt = 0;
  }
 }
-
-/******************************************************************************/
 
 int acptr_Class::Init(int argc, char * argv[])
 {
@@ -350,8 +332,6 @@ int acptr_Class::Init(int argc, char * argv[])
  return status;
 }
 
-/******************************************************************************/
-
 int acptr_Class::Work(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -449,5 +429,3 @@ int acptr_Class::Work(int kmn, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/

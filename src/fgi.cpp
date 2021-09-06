@@ -6,16 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-/******************************************************************************/
-
 gi_Class::gi_Class(void)
 {
  RodzajWej = '-';
  RodzajWyj = 'B';
  Losowe = 1; /* Zakładamy, że dane będą generowane losowo */
 }
-
-/******************************************************************************/
 
 void gi_Class::LocalDestructor(void)
 {
@@ -26,8 +22,6 @@ void gi_Class::LocalDestructor(void)
   NextProcess = NULL;
  }
 }
-
-/******************************************************************************/
 
 int gi_Class::Init(int argc, char * argv[])
 {
@@ -91,8 +85,6 @@ int gi_Class::Init(int argc, char * argv[])
  }
  return status;
 }
-
-/******************************************************************************/
 
 int gi_Class::Work(int kmn, Byte * poczatek, int ile)
 {

@@ -5,8 +5,6 @@
 #include <string.h>
 
 
-/******************************************************************************/
-
 fi_Class::fi_Class(void)
 {
  RodzajWej = '-';
@@ -14,8 +12,6 @@ fi_Class::fi_Class(void)
  plik = -1;
  Suma = 0;
 }
-
-/******************************************************************************/
 
 void fi_Class::LocalDestructor(void)
 {
@@ -31,8 +27,6 @@ void fi_Class::LocalDestructor(void)
   NextProcess = NULL;
  }
 }
-
-/******************************************************************************/
 
 int fi_Class::Init(int argc, char *argv[])
 {
@@ -96,8 +90,6 @@ int fi_Class::Init(int argc, char *argv[])
  return status;
 }
 
-/******************************************************************************/
-
 int fi_Class::Work(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -126,8 +118,6 @@ int fi_Class::Work(int kmn, Byte * poczatek, int ile)
  return status;
 }
 
-/******************************************************************************/
-
 int fi_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
 {
  int status;
@@ -144,8 +134,6 @@ int fi_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/
 
 int fi_Class::Obsluga_SAND_DR(int kmn, Byte * poczatek, int ile)
 {
@@ -223,5 +211,3 @@ int fi_Class::Obsluga_SAND_DR(int kmn, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/

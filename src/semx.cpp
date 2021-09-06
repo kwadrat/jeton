@@ -50,15 +50,11 @@ SimpleSem::SimpleSem(void)
 #endif
 }
 
-/******************************************************************************/
-
 SimpleSem::~SimpleSem(void)
 {
  /* Tu nie powinniśmy dojść pod Windows, bo Linux jakoś nie potrafi tu dojść */
  assert(1 == 0);
 }
-
-/******************************************************************************/
 
 void SimpleSem::LocalDestructor(void)
 {
@@ -82,8 +78,6 @@ void SimpleSem::LocalDestructor(void)
  }
 #endif
 }
-
-/******************************************************************************/
 
 void SimpleSem::P(void)
 {
@@ -111,8 +105,6 @@ void SimpleSem::P(void)
 #endif
 }
 
-/******************************************************************************/
-
 void SimpleSem::V(void)
 {
 #ifdef PLATFORM_WIN
@@ -139,8 +131,6 @@ void SimpleSem::V(void)
 #endif
 }
 
-/******************************************************************************/
-
 /* Informuje, że semafor został poprawnie utworzony (1) lub był błąd (0).
  * Wstępnie semafor jest tworzony w trybie otwartym, wpuszczającym jednego
  * klienta. */
@@ -150,8 +140,6 @@ int SimpleSem::OK(void)
 }
 
 #endif
-
-/******************************************************************************/
 
 Semafor::Semafor(void)
 {
@@ -178,14 +166,10 @@ Semafor::Semafor(void)
 #endif
 }
 
-/******************************************************************************/
-
 Semafor::~Semafor(void)
 {
  /* Tu za bardzo nie ma pomysłu, co by robić */
 }
-
-/******************************************************************************/
 
 void Semafor::LocalDestructor(void)
 {
@@ -214,8 +198,6 @@ void Semafor::LocalDestructor(void)
  ValueSem.LocalDestructor();
 #endif
 }
-
-/******************************************************************************/
 
 /* Wymusza ustawienie semafora. Jeśli wartość jest poniżej 1, to następuje
 aktywacja blokady. Ta funkcja musi być wywoływana, aby semafor mógł pracować
@@ -276,8 +258,6 @@ int Semafor::UstawWartosc(int value, int ilest)
  return TworzenieOK;
 }
 
-/******************************************************************************/
-
 /* Zwraca dla semafora DostMiejsce liczbę buforów, które zostały wykorzystane
  */
 int Semafor::IleWykorzystano(void)
@@ -294,8 +274,6 @@ int Semafor::IleWykorzystano(void)
 #endif
  return ile;
 }
-
-/******************************************************************************/
 
 int Semafor::SemP(void)
 {
@@ -364,8 +342,6 @@ int Semafor::SemP(void)
  return status;
 }
 
-/******************************************************************************/
-
 /* Zwraca na pewno stan wcześniejszy licznika semafora, niż ten, jaki będzie
    po wykonaniu operacji zwalniania bufora */
 int Semafor::SemV(void)
@@ -415,5 +391,3 @@ int Semafor::SemV(void)
 #endif
  return status;
 }
-
-/******************************************************************************/

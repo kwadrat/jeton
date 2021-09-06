@@ -4,16 +4,12 @@
 #include <stdio.h>
 #include <errno.h>
 
-/******************************************************************************/
-
 tos_Class::tos_Class(void)
 {
  RodzajWej = 'B';
  RodzajWyj = '-';
  plik = -1;
 }
-
-/******************************************************************************/
 
 void tos_Class::LocalDestructor(void)
 {
@@ -23,8 +19,6 @@ void tos_Class::LocalDestructor(void)
   plik = -1;
  }
 }
-
-/******************************************************************************/
 
 int tos_Class::Init(int argc, char * argv[])
 {
@@ -48,8 +42,6 @@ int tos_Class::Init(int argc, char * argv[])
  }
  return status;
 }
-
-/******************************************************************************/
 
 int tos_Class::Work(int kmn, Byte * poczatek, int ile)
 {
@@ -93,7 +85,5 @@ int tos_Class::Work(int kmn, Byte * poczatek, int ile)
  }
  return status;
 }
-
-/******************************************************************************/
 
 #endif

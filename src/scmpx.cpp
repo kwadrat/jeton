@@ -1,7 +1,5 @@
 #include <ctype.h>
 
-/******************************************************************************/
-
 /* Funkcja sprawdza, czy dwa napisy są identyczne, nie biorąc pod uwagę
 wielkości liter (Wartość zwrotna: 1 - różne, 0 - jednakowe napisy) */
 int CaseStrcmp(char *a, const char *b)
@@ -20,5 +18,3 @@ int CaseStrcmp(char *a, const char *b)
  }
  return (*a == *b) ? 0 : 1;
 }
-
-/******************************************************************************/
