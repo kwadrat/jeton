@@ -31,6 +31,8 @@ int main(int argc, char * argv[])
 {
  /* Potrzebujemy tego rozmiaru w procesie "smar" */
  assert(sizeof(int) == ROZM_INT);
+ /* Dla sumy kontrolnej zakładamy, że liczby są 32-bitowe */
+ assert(sizeof(unsigned int) == ROZM_INT);
 
 #if ! TESTOWANIE
 
