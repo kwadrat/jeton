@@ -31,7 +31,7 @@ void kopier_Class::LocalDestructor(void)
  }
 }
 
-/* Jedynym parametrem jest liczba bajtów w buforze */
+/* Podstawowym parametrem jest liczba bajtów w buforze */
 int kopier_Class::Init(int argc, char *argv[])
 {
  int ile;
