@@ -56,7 +56,7 @@ int River::OpenDaemonTCP(char * PortName)
 {
  int status;
  int s_odt;
- int s2;
+ int s_bnd;
  int tmplen;
  int plik;
  status = -1;
@@ -76,8 +76,8 @@ int River::OpenDaemonTCP(char * PortName)
 #endif
   if(TopRiver.FillPort( & sin, PortName))
   {
-   s2 = bind(s_odt, (struct sockaddr *) & sin, sizeof(sin));
-   if(s2 != -1)
+   s_bnd = bind(s_odt, (struct sockaddr *) & sin, sizeof(sin));
+   if(s_bnd != -1)
    {
     listen(s_odt, 3); /* Tu poczekamy na zgłoszenie */
 #ifdef PLATFORM_WIN
