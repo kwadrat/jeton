@@ -263,12 +263,12 @@ int River::RecvMultiTCP(int s_rmt, Byte * poczatek, int ile, int * eof_flag)
 /* Zwraca identyfikator gniazdka (jeśli ujemny, to wystąpił błąd) */
 int River::InitStruct(struct sockaddr_in * sin)
 {
- int s; /* Socket */
+ int s_is; /* Socket */
  memset(sin, 0, sizeof(struct sockaddr_in));
  sin->sin_family = AF_INET;
  sin->sin_addr.s_addr = INADDR_ANY;
- s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
- return s;
+ s_is = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+ return s_is;
 }
 
 /* W podanej strukturze wypełnia pole adresu IP. Wartość zwrotna: 1 - OK,
