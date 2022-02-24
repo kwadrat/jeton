@@ -174,7 +174,7 @@ int River::OpenClientTCP(char * HostName, char * PortName)
 /* Wartość zwrotna: liczba wysłanych bajtów. Zakładamy, że funkcja będzie
  * wywoływana tylko z dodatnią liczbą bajtów do wysłania. Wartość zwrotna może
  * być ujemna, co sugeruje błąd w czasie transmisji. */
-int River::SendMultiTCP(int s, Byte * poczatek, int ile)
+int River::SendMultiTCP(int s_smt, Byte * poczatek, int ile)
 {
  int status;
  status = -1;
@@ -188,7 +188,7 @@ int River::SendMultiTCP(int s, Byte * poczatek, int ile)
    status = suma;
    break;
   }
-  kes = send(s,
+  kes = send(s_smt,
 #ifdef PLATFORM_WIN
              (char *)
 #endif
