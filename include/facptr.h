@@ -37,7 +37,7 @@ class acptr_Class : public ProcessClass
  __int64
 #endif
  s1, /* Liczba bajtów przesłana w ostatnim krótkim okresie */
- s2, /* Sumaryczna liczba bajtów od początku transmisji */
+ s_so_far, /* Sumaryczna liczba bajtów od początku transmisji */
  s3; /* Wielkość pobranej porcji danych */
  /* Różnica między początkiem i końcem okresu, zwracana przez funkcję
   * WyliczCzasDelta() */

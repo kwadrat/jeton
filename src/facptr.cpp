@@ -124,7 +124,7 @@ void acptr_Class::RaportOkresowy(void)
 #ifdef PLATFORM_LINUX
  if(WyliczCzasDelta( & t3, & t5))
  {
-  printf("Czas %g s, %lld B, %lld B, transfer %g KB/s\n", tdiff, s1, s2,
+  printf("Czas %g s, %lld B, %lld B, transfer %g KB/s\n", tdiff, s1, s_so_far,
          s1 / tdiff / 1024);
  }
  else
@@ -136,7 +136,7 @@ void acptr_Class::RaportOkresowy(void)
 #ifdef PLATFORM_WIN
  if(WyliczCzasDelta(t3, t5))
  {
-  printf("Czas %g s, %I64d B, %I64d B, transfer %g KB/s\n", tdiff, s1, s2,
+  printf("Czas %g s, %I64d B, %I64d B, transfer %g KB/s\n", tdiff, s1, s_so_far,
          s1 / tdiff / 1024);
  }
  else
@@ -301,7 +301,7 @@ int acptr_Class::Init(int argc, char * argv[])
    {
     /* Będziemy generować okresowe raporty */
     s1 = 0;
-    s2 = 0;
+    s_so_far = 0;
     t3 = t5;
     /* Dla "SLmt <> 0" będziemy wyświetlać raporty co pewną liczbę odczytów
      * z poprzedzającego magazynu, dlatego nie jest ważna wartość "t4" */
@@ -373,7 +373,7 @@ int acptr_Class::Work(int kmn, Byte * poczatek, int ile)
 #endif
     ile;
     s1 += s3;
-    s2 += s3;
+    s_so_far += s3;
     if(SLmt)
     {
      SAkt ++;
