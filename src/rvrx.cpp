@@ -210,7 +210,7 @@ int River::SendMultiTCP(int s, Byte * poczatek, int ile)
  * zwracamy 0. Jeśli przy jakimś odczycie zostało zwrócone zero (End of File),
  * to ustawiamy flagę "eof_flag" */
 
-int River::RecvMultiTCP(int s, Byte * poczatek, int ile, int * eof_flag)
+int River::RecvMultiTCP(int s_rmt, Byte * poczatek, int ile, int * eof_flag)
 {
  int status;
  int suma;
@@ -224,7 +224,7 @@ int River::RecvMultiTCP(int s, Byte * poczatek, int ile, int * eof_flag)
    status = suma;
    break;
   }
-  kes = recv(s,
+  kes = recv(s_rmt,
 #ifdef PLATFORM_WIN
              (char *)
 #endif
