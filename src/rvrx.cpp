@@ -343,9 +343,9 @@ void River::CloseSocketTCP(int s)
 #endif
 
 #if PLATFORM_WIN
-void River::CloseSocketTCP(SOCKET s)
+void River::CloseSocketTCP(SOCKET s_cst)
 {
- closesocket(s);
+ closesocket(s_cst);
 }
 #endif
 
