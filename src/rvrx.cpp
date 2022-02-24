@@ -132,7 +132,7 @@ int River::OpenDaemonTCP(char * PortName)
 int River::OpenClientTCP(char * HostName, char * PortName)
 {
  int status;
- int s;
+ int s_oct;
  int plik;
 
  status = -1;
@@ -144,8 +144,8 @@ int River::OpenClientTCP(char * HostName, char * PortName)
   {
    if(TopRiver.FillPort( & sin, PortName))
    {
-    s = connect(plik, (struct sockaddr *) & sin, sizeof(sin));
-    if(s >= 0)
+    s_oct = connect(plik, (struct sockaddr *) & sin, sizeof(sin));
+    if(s_oct >= 0)
     {
      status = plik;
     }
