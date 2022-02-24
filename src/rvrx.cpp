@@ -336,9 +336,9 @@ int River::FillPort(struct sockaddr_in * sin, char * napis)
 }
 
 #if PLATFORM_LINUX
-void River::CloseSocketTCP(int s)
+void River::CloseSocketTCP(int s_cst)
 {
- close(s);
+ close(s_cst);
 }
 #endif
 
