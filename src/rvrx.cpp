@@ -55,20 +55,20 @@ void River::Finish(void)
 int River::OpenDaemonTCP(char * PortName)
 {
  int status;
- int s;
+ int s_odt;
  int s2;
  int tmplen;
  int plik;
  status = -1;
  Init();
- s = InitStruct( & sin);
- if(s != -1)
+ s_odt = InitStruct( & sin);
+ if(s_odt != -1)
  {
 #if AKTYWNY_REUSEADDR
   /* qaz - Trzeba się zastanowić, co w ogóle daje ta opcja. Jeśli to będzie
    * wiadome, to w tym miejscu należy to odpowiednio skomentować. */
   tmplen = 1;
-  setsockopt(s, SOL_SOCKET, SO_REUSEADDR,
+  setsockopt(s_odt, SOL_SOCKET, SO_REUSEADDR,
 #ifdef PLATFORM_WIN
              (char *)
 #endif
@@ -76,17 +76,17 @@ int River::OpenDaemonTCP(char * PortName)
 #endif
   if(TopRiver.FillPort( & sin, PortName))
   {
-   s2 = bind(s, (struct sockaddr *) & sin, sizeof(sin));
+   s2 = bind(s_odt, (struct sockaddr *) & sin, sizeof(sin));
    if(s2 != -1)
    {
-    listen(s, 3); /* Tu poczekamy na zgłoszenie */
+    listen(s_odt, 3); /* Tu poczekamy na zgłoszenie */
 #ifdef PLATFORM_WIN
 #if 0
     printf("Po listen() WSAGetLastError = %d\n", WSAGetLastError());
 #endif
 #endif
     tmplen = sizeof(sin);
-    plik = accept(s,
+    plik = accept(s_odt,
 /* #ifdef PLATFORM_LINUX qaz */
 #if 1
                   (struct sockaddr *)
