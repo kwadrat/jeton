@@ -26,7 +26,12 @@ void acptr_Class::LocalDestructor(void)
 char * acptr_Class::LadnieTysiacami(void)
 {
     static char local_buff[SEP_BF_SIZE];
+#ifdef PLATFORM_LINUX
     int total_cnt = snprintf(local_buff, SEP_BF_SIZE, "%lld", s_so_far);
+#endif
+#ifdef PLATFORM_WIN
+    int total_cnt = snprintf(local_buff, SEP_BF_SIZE, "%I64d", s_so_far);
+#endif
     int src_pos, dst_pos, digits_taken;
 
     if(total_cnt >= SEP_BF_SIZE)
