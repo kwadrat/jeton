@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define SEP_BF_SIZE 28 /* Bufor na 64-bitową liczbę, która ma 26 znaków, gdy tysiące są separowane spacjami */
+
 acptr_Class::acptr_Class(void)
 {
  RodzajWej = 'B';
@@ -18,6 +20,60 @@ void acptr_Class::LocalDestructor(void)
   free(RTab);
   RTab = NULL;
  }
+}
+
+/* Oddziel tysiące spacjami, aby łatwiej było zobaczyć dotychczasową sumę */
+char * acptr_Class::LadnieTysiacami(void)
+{
+    static char local_buff[SEP_BF_SIZE];
+    int total_cnt = snprintf(local_buff, SEP_BF_SIZE, "%lld", s_so_far);
+    int src_pos, dst_pos, digits_taken;
+
+    if(total_cnt >= SEP_BF_SIZE)
+    {
+        SygErrorParm("Bledny rozmiar %d", total_cnt);
+        exit(1);
+    }
+    src_pos = total_cnt; /* To liczba cyfr, bez liczenia bajtu zerowego kończącego napis */
+    dst_pos = SEP_BF_SIZE - 1;
+    digits_taken = 0;
+    local_buff[dst_pos] = local_buff[src_pos]; /* Prześlij zerowy bajt ASCII NULL (kończy zapis cyfry) */
+    while(1)
+    {
+        if(
+            (src_pos > 0) &&
+            (src_pos < dst_pos) &&
+            (digits_taken > 0) &&
+            ((digits_taken % 3) == 0)
+            )
+        {
+            if(dst_pos <= 0)
+            {
+                break;
+            }
+            dst_pos --;
+            local_buff[dst_pos] = ' '; /* Wpisz spację rozdzielającą tysiące */
+        }
+        if(src_pos <= 0)
+        {
+            break; /* Koniec danych do pobrania */
+        }
+        else
+        {
+            src_pos --;
+        }
+        if(dst_pos <= 0)
+        {
+            break; /* Koniec miejsca do zapisywania */
+        }
+        else
+        {
+            dst_pos --;
+        }
+        local_buff[dst_pos] = local_buff[src_pos]; /* Prześlij jedną cyfrę */
+        digits_taken ++;
+    }
+    return local_buff + dst_pos;
 }
 
 /* Do zmiennej t5 wrzucamy aktualny czas */

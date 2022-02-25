@@ -55,6 +55,7 @@ class acptr_Class : public ProcessClass
  /* Dla niezerowej wartości "SLmt" tutaj jest wyznaczana aktualna liczba
   * odczytów z poprzedzającego magazynu */
  int SAkt;
+ char * LadnieTysiacami(void);
 public:
  virtual int Init(int, char *[]);
  virtual int Work(int, Byte *, int);
