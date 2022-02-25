@@ -180,7 +180,7 @@ void acptr_Class::RaportOkresowy(void)
 #ifdef PLATFORM_LINUX
  if(WyliczCzasDelta( & t3, & t5))
  {
-  printf("Czas %g s, %lld B, %lld B, transfer %g KB/s\n", tdiff, s1, s_so_far,
+  printf("Czas %g s, %lld B, %s B, transfer %g KB/s\n", tdiff, s1, LadnieTysiacami(),
          s1 / tdiff / 1024);
  }
  else
@@ -192,7 +192,7 @@ void acptr_Class::RaportOkresowy(void)
 #ifdef PLATFORM_WIN
  if(WyliczCzasDelta(t3, t5))
  {
-  printf("Czas %g s, %I64d B, %I64d B, transfer %g KB/s\n", tdiff, s1, s_so_far,
+  printf("Czas %g s, %I64d B, %s B, transfer %g KB/s\n", tdiff, s1, LadnieTysiacami(),
          s1 / tdiff / 1024);
  }
  else
