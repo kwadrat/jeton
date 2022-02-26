@@ -26,6 +26,13 @@ void acptr_Class::LocalDestructor(void)
 char * acptr_Class::LadnieTysiacami(void)
 {
     static char local_buff[SEP_BF_SIZE];
+    /* Funkcja snprintf() zwraca liczbę cyfr wartości:
+       - końcowe zero nie jest liczone,
+       - jeżeli bufor jest za mały (np. 2 bajty dla liczby 1 milion), to zwracane jest 7
+       Końcowe zero zawsze występuje w zapisywanym napisie.
+       Bufor jest wystarczająco długi, jeśli po zapisie liczby
+       wartość zwrotna jest <= SEP_BF_SIZE - 2
+    */
 #ifdef PLATFORM_LINUX
     int total_cnt = snprintf(local_buff, SEP_BF_SIZE, "%lld", s_so_far);
 #endif
@@ -33,10 +40,13 @@ char * acptr_Class::LadnieTysiacami(void)
     int total_cnt = snprintf(local_buff, SEP_BF_SIZE, "%I64d", s_so_far);
 #endif
     int src_pos, dst_pos, digits_taken;
-
-    if(total_cnt >= SEP_BF_SIZE)
+    if(total_cnt >= SEP_BF_SIZE - 1)
     {
-        SygErrorParm("Bledny rozmiar %d", total_cnt);
+        printf("Rozmiar bufora to %d bajtow.\n", SEP_BF_SIZE);
+        printf("Liczba zostala skonwertowana do %d cyfr.\n", total_cnt);
+        printf("Jest potrzebny jeszcze dodatkowy bajt dla zera konczacego napis.\n");
+        printf("A dodatkowo warto nie wykorzystac ostatniego bajtu, aby bylo widac, ze nie przepelniono buforu.\n");
+        SygError("Bufor ma za mala pojemnosc.");
         exit(1);
     }
     src_pos = total_cnt; /* To liczba cyfr, bez liczenia bajtu zerowego kończącego napis */
