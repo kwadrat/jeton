@@ -361,39 +361,42 @@ int acptr_Class::Init(int argc, char * argv[])
                 }
             }
         }
-        t2 = atoi(argv[nr]);
-        nr ++;
-        if(t2 >= 0)
+        if(parmok)
         {
-            s0 = 0;
-            AktualnyCzas(); /* Rezultat w t5 */
-            t0 = t5;
-            if(t2)
+            t2 = atoi(argv[nr]);
+            nr ++;
+            if(t2 >= 0)
             {
-                /* Będziemy generować okresowe raporty */
-                s1 = 0;
-                s_so_far = 0;
-                t3 = t5;
-                /* Dla "SLmt <> 0" będziemy wyświetlać raporty co pewną liczbę odczytów
-                * z poprzedzającego magazynu, dlatego nie jest ważna wartość "t4" */
-                if( ! SLmt)
+                s0 = 0;
+                AktualnyCzas(); /* Rezultat w t5 */
+                t0 = t5;
+                if(t2)
                 {
-                    /* Tradycyjnie odmierzamy raporty co pewien czas */
-                    t4 = t0; /* Zaczynamy od momentu startu */
-                    #ifdef PLATFORM_LINUX
-                    t4.tv_sec += t2;
-                    #endif
+                    /* Będziemy generować okresowe raporty */
+                    s1 = 0;
+                    s_so_far = 0;
+                    t3 = t5;
+                    /* Dla "SLmt <> 0" będziemy wyświetlać raporty co pewną liczbę odczytów
+                    * z poprzedzającego magazynu, dlatego nie jest ważna wartość "t4" */
+                    if( ! SLmt)
+                    {
+                        /* Tradycyjnie odmierzamy raporty co pewien czas */
+                        t4 = t0; /* Zaczynamy od momentu startu */
+                        #ifdef PLATFORM_LINUX
+                        t4.tv_sec += t2;
+                        #endif
 
-                    #ifdef PLATFORM_WIN
-                    t4 += (t2 * 1000);
-                    #endif
+                        #ifdef PLATFORM_WIN
+                        t4 += (t2 * 1000);
+                        #endif
+                    }
                 }
+                status = nr;
             }
-            status = nr;
-        }
-        else
-        {
-            SygErrorParm("Dziwna wartość interwału czasowego %d\n", t2);
+            else
+            {
+                SygErrorParm("Dziwna wartość interwału czasowego %d\n", t2);
+            }
         }
     }
     else
