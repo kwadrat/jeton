@@ -131,7 +131,7 @@ int md5_Class::DisplayState(void)
             ZmienStan(STATE_OFF, KIER_WSTECZ);
                 status = RESULT_OFF;
                 break; /* Wyjście z pętli do {} while (); */
-        }
+            }
     }
     while(suma < limit);
     return status;

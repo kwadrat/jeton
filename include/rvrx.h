@@ -2,7 +2,7 @@
 #define _RVRX_H
 
 /* Klasa pomocnicza dla dostępu do plików (definicje stałych
- * i nagłówków) i strumieni TCP */
+* i nagłówków) i strumieni TCP */
 
 #include "typy.h"
 
@@ -44,28 +44,29 @@
 
 class River
 {
- int aktywna; /* Czy sieć jest aktywna i można z niej korzystać */
-#if PLATFORM_WIN
- WSADATA wsd;
-#endif
- struct sockaddr_in sin; /* Opis gniazda TCP */
-public:
- River(void);
- int Init(void);
- void Finish(void);
- int OpenDaemonTCP(char *);
- int OpenClientTCP(char *, char *);
- int SendMultiTCP(int, Byte *, int);
- int RecvMultiTCP(int, Byte *, int, int *);
- int InitStruct(struct sockaddr_in *);
- int FillAddress(struct sockaddr_in *, char *);
- int FillPort(struct sockaddr_in *, char *);
-#if PLATFORM_LINUX
- void CloseSocketTCP(int);
-#endif
-#if PLATFORM_WIN
- void CloseSocketTCP(SOCKET);
-#endif
+    int aktywna; /* Czy sieć jest aktywna i można z niej korzystać */
+    #if PLATFORM_WIN
+    WSADATA wsd;
+    #endif
+    struct sockaddr_in sin; /* Opis gniazda TCP */
+
+    public:
+    River(void);
+    int Init(void);
+    void Finish(void);
+    int OpenDaemonTCP(char *);
+    int OpenClientTCP(char *, char *);
+    int SendMultiTCP(int, Byte *, int);
+    int RecvMultiTCP(int, Byte *, int, int *);
+    int InitStruct(struct sockaddr_in *);
+    int FillAddress(struct sockaddr_in *, char *);
+    int FillPort(struct sockaddr_in *, char *);
+    #if PLATFORM_LINUX
+    void CloseSocketTCP(int);
+    #endif
+    #if PLATFORM_WIN
+    void CloseSocketTCP(SOCKET);
+    #endif
 };
 
 extern River TopRiver; /* Informacja dla chcących skorzystać z klasy */

@@ -10,12 +10,13 @@
 
 class tic_Class : public ProcessClass
 {
- int plik; /* Identyfikator połączenia TCP */
-public:
- virtual int Init(int, char *[]);
- virtual int Work(int, Byte *, int);
- virtual void LocalDestructor(void);
- tic_Class(void);
+    int plik; /* Identyfikator połączenia TCP */
+
+    public:
+    virtual int Init(int, char *[]);
+    virtual int Work(int, Byte *, int);
+    virtual void LocalDestructor(void);
+    tic_Class(void);
 };
 
 #endif

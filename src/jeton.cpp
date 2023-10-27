@@ -16,12 +16,12 @@ MasterClass TopMember; /* Tu jest definicja jedynego obiektu tej klasy */
 #if TESTOWANIE
 #define ROZMIAR_TAB 6
 char * Tablica[ROZMIAR_TAB] = {
-"gi",
-"1",
-"kopier",
-"1",
-"acptr",
-"1"
+    "gi",
+    "1",
+    "kopier",
+    "1",
+    "acptr",
+    "1"
 };
 #endif
 
@@ -29,52 +29,52 @@ int error_occured;
 
 int main(int argc, char * argv[])
 {
- /* Potrzebujemy tego rozmiaru w procesie "smar" */
- assert(sizeof(int) == ROZM_INT);
- /* Dla sumy kontrolnej zakładamy, że liczby są 32-bitowe */
- assert(sizeof(unsigned int) == ROZM_INT);
+    /* Potrzebujemy tego rozmiaru w procesie "smar" */
+    assert(sizeof(int) == ROZM_INT);
+    /* Dla sumy kontrolnej zakładamy, że liczby są 32-bitowe */
+    assert(sizeof(unsigned int) == ROZM_INT);
 
-#if ! TESTOWANIE
+    #if ! TESTOWANIE
 
- if(argc > 1)
- {
-  if(WantHelp(argv[1]))
-  {
-   ShowHelp(argc, argv);
-  }
-  else /* Nie chcemy pomocy */
-  {
-   if(CreateChainLogic(argc - 1, argv + 1))
-   {
-    /* Circle in the sand (Belinda Carlile?) - uruchom łańcuch procesów */
-    TopMember.RunProcesses();
-   }
-   else
-   {
-    SygError("Kończę z powodu błędu przetwarzania.");
-   }
-  }
- }
- else
- {
-  SygError("Brak parametrów - nie wiem, co mam robić!");
- }
+    if(argc > 1)
+    {
+        if(WantHelp(argv[1]))
+        {
+            ShowHelp(argc, argv);
+        }
+        else /* Nie chcemy pomocy */
+        {
+            if(CreateChainLogic(argc - 1, argv + 1))
+            {
+                /* Circle in the sand (Belinda Carlile?) - uruchom łańcuch procesów */
+                TopMember.RunProcesses();
+            }
+            else
+            {
+                SygError("Kończę z powodu błędu przetwarzania.");
+            }
+        }
+    }
+    else
+    {
+        SygError("Brak parametrów - nie wiem, co mam robić!");
+    }
 
-#else
- if(CreateChainLogic(ROZMIAR_TAB, Tablica))
- {
-  /* Circle in the sand (Belinda Carlisle) - uruchom łańcuch procesów */
-  TopMember.RunProcesses();
- }
- else
- {
-  SygError("Kończę z powodu błędu przetwarzania.");
- }
+    #else
+    if(CreateChainLogic(ROZMIAR_TAB, Tablica))
+    {
+        /* Circle in the sand (Belinda Carlisle) - uruchom łańcuch procesów */
+        TopMember.RunProcesses();
+    }
+    else
+    {
+        SygError("Kończę z powodu błędu przetwarzania.");
+    }
 
-#endif
- TopMember.LocalDestructor(); /* Musimy pozamykać pliki */
-#if AKTYWNY_RIVER
- TopRiver.Finish();
-#endif
- return error_occured;
+    #endif
+    TopMember.LocalDestructor(); /* Musimy pozamykać pliki */
+    #if AKTYWNY_RIVER
+    TopRiver.Finish();
+    #endif
+    return error_occured;
 }

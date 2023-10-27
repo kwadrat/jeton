@@ -20,59 +20,60 @@ typedef DWORD TCZAS;
 
 class acptr_Class : public ProcessClass
 {
- /* Odstęp czasowy w sekundach (0 - nie robimy okresowych raportów */
- int t2;
- /* Suma bajtów w ogóle przesłanych */
-#ifdef PLATFORM_LINUX
- long long
-#endif
-#ifdef PLATFORM_WIN
- __int64
-#endif
- s0;
-#ifdef PLATFORM_LINUX
- long long
-#endif
-#ifdef PLATFORM_WIN
- __int64
-#endif
- s1, /* Liczba bajtów przesłana w ostatnim krótkim okresie */
- s_so_far, /* Sumaryczna liczba bajtów od początku transmisji */
- s3; /* Wielkość pobranej porcji danych */
- /* Różnica między początkiem i końcem okresu, zwracana przez funkcję
-  * WyliczCzasDelta() */
- float tdiff;
- int RMax; /* Maksymalna liczba zarejestrowanych czasów */
- int RAkt; /* Aktualna liczba zarejestrowanych czasów */
- TCZAS t0; /* Moment rozpoczęcia całej transmisji */
- TCZAS t3; /* Początek krótkiego okresu */
- TCZAS t4; /* Prognozowany moment zakończenia krótkiego okresu */
- TCZAS t5; /* Tu umieszczamy właśnie odczytaną wartość zegara systemowego */
- TCZAS *RTab;
- /* Jeśli wartość jest niezerowa, to oznacza, co ile pobrań z poprzedzającego
-  * magazynu jest wyświetlana statystyka */
- int SLmt;
- /* Dla niezerowej wartości "SLmt" tutaj jest wyznaczana aktualna liczba
-  * odczytów z poprzedzającego magazynu */
- int SAkt;
- char * LadnieTysiacami(void);
-public:
- virtual int Init(int, char *[]);
- virtual int Work(int, Byte *, int);
- virtual void LocalDestructor(void);
- acptr_Class(void);
- void AktualnyCzas(void);
- int Chronologicznie(void);
- void RaportOkresowy(void);
- void RaportKoncowy(void);
- void DumpRTable(void);
-#ifdef PLATFORM_LINUX
- int WyliczCzasDelta(struct timeval *, struct timeval *);
-#endif
+    /* Odstęp czasowy w sekundach (0 - nie robimy okresowych raportów */
+    int t2;
+    /* Suma bajtów w ogóle przesłanych */
+    #ifdef PLATFORM_LINUX
+    long long
+    #endif
+    #ifdef PLATFORM_WIN
+    __int64
+    #endif
+    s0;
+    #ifdef PLATFORM_LINUX
+    long long
+    #endif
+    #ifdef PLATFORM_WIN
+    __int64
+    #endif
+    s1, /* Liczba bajtów przesłana w ostatnim krótkim okresie */
+    s_so_far, /* Sumaryczna liczba bajtów od początku transmisji */
+    s3; /* Wielkość pobranej porcji danych */
+    /* Różnica między początkiem i końcem okresu, zwracana przez funkcję
+    * WyliczCzasDelta() */
+    float tdiff;
+    int RMax; /* Maksymalna liczba zarejestrowanych czasów */
+    int RAkt; /* Aktualna liczba zarejestrowanych czasów */
+    TCZAS t0; /* Moment rozpoczęcia całej transmisji */
+    TCZAS t3; /* Początek krótkiego okresu */
+    TCZAS t4; /* Prognozowany moment zakończenia krótkiego okresu */
+    TCZAS t5; /* Tu umieszczamy właśnie odczytaną wartość zegara systemowego */
+    TCZAS *RTab;
+    /* Jeśli wartość jest niezerowa, to oznacza, co ile pobrań z poprzedzającego
+    * magazynu jest wyświetlana statystyka */
+    int SLmt;
+    /* Dla niezerowej wartości "SLmt" tutaj jest wyznaczana aktualna liczba
+    * odczytów z poprzedzającego magazynu */
+    int SAkt;
+    char * LadnieTysiacami(void);
 
-#ifdef PLATFORM_WIN
- int WyliczCzasDelta(DWORD, DWORD);
-#endif
+    public:
+    virtual int Init(int, char *[]);
+    virtual int Work(int, Byte *, int);
+    virtual void LocalDestructor(void);
+    acptr_Class(void);
+    void AktualnyCzas(void);
+    int Chronologicznie(void);
+    void RaportOkresowy(void);
+    void RaportKoncowy(void);
+    void DumpRTable(void);
+    #ifdef PLATFORM_LINUX
+    int WyliczCzasDelta(struct timeval *, struct timeval *);
+    #endif
+
+    #ifdef PLATFORM_WIN
+    int WyliczCzasDelta(DWORD, DWORD);
+    #endif
 };
 
 #endif

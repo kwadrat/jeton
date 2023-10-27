@@ -5,12 +5,13 @@
 
 class fo_Class : public ProcessClass
 {
- int plik; /* Identyfikator pliku otwartego przez open() */
-public:
- virtual int Init(int, char *[]);
- virtual int Work(int, Byte *, int);
- virtual void LocalDestructor(void);
- fo_Class(void);
+    int plik; /* Identyfikator pliku otwartego przez open() */
+
+    public:
+    virtual int Init(int, char *[]);
+    virtual int Work(int, Byte *, int);
+    virtual void LocalDestructor(void);
+    fo_Class(void);
 };
 
 #endif

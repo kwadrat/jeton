@@ -5,11 +5,11 @@
 
 class so_Class : public ProcessClass
 {
-public:
- virtual int Init(int, char *[]);
- virtual int Work(int, Byte *, int);
- virtual void LocalDestructor(void);
- so_Class(void);
+    public:
+    virtual int Init(int, char *[]);
+    virtual int Work(int, Byte *, int);
+    virtual void LocalDestructor(void);
+    so_Class(void);
 };
 
 #endif

@@ -23,7 +23,7 @@ class md5_Class : public ProcessClass
     unsigned int XorBuff;
     unsigned int SubBuff;
 
-public:
+    public:
     virtual int Init(int, char *[]);
     virtual int Work(int, Byte *, int);
     virtual void LocalDestructor(void);
