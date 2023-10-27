@@ -43,7 +43,12 @@ int CreateChainLink(void * ogniwo, const char * NazwaTypu, int * index, int n,
  if(tmp != NULL)
  {
   IleArg = tmp->Init((n - (*index)), s + (*index));
-  if(IleArg != RESULT_OFF)
+  if(IleArg == RESULT_OFF)
+  {
+   SygErrorParm("Błąd podczas inicjalizacji obiektu %s", NazwaTypu);
+   status = 0;
+  }
+  else
   {
    if( ! TopMember.AddProcess(tmp))
    {
@@ -51,11 +56,6 @@ int CreateChainLink(void * ogniwo, const char * NazwaTypu, int * index, int n,
     status = 0;
    }
    (*index) += IleArg;
-  }
-  else
-  {
-   SygErrorParm("Błąd podczas inicjalizacji obiektu %s", NazwaTypu);
-   status = 0;
   }
  }
  else
