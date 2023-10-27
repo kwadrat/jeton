@@ -12,7 +12,7 @@ class ProcessClass
 
     public:
     ProcessClass(void);
-    ~ProcessClass(void);
+    virtual ~ProcessClass(void);
     ProcessClass * PrevProcess;
     ProcessClass * NextProcess;
     virtual int Init(int, char *[]);
