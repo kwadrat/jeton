@@ -174,7 +174,7 @@ int acptr_Class::Chronologicznie(void)
     status = 0;
     #ifdef PLATFORM_LINUX
     if(t4.tv_sec < t5.tv_sec ||
-    t4.tv_sec == t5.tv_sec && t4.tv_usec <= t5.tv_usec)
+    (t4.tv_sec == t5.tv_sec && t4.tv_usec <= t5.tv_usec))
     {
         status = 1;
     }
