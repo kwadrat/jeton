@@ -72,7 +72,6 @@ int cat_Class::Work(int kmn, Byte * poczatek, int ile)
 int cat_Class::Obsluga_SAND_SR(int kmn, Byte * poczatek, int ile)
 {
     int status;
-    int s;
 
     assert(ile > 0);
     assert(poczatek != NULL);
@@ -82,8 +81,7 @@ int cat_Class::Obsluga_SAND_SR(int kmn, Byte * poczatek, int ile)
     SumaDanych = ile;
     Pobrano = 0;
     assert(NextProcess != NULL);
-    s = NextProcess->Work(SAND_GENERAL, NULL, KIER_PROSTO);
-    /* qaz - tutaj ignorujemy zmienną s. Dlaczego? */
+    NextProcess->Work(SAND_GENERAL, NULL, KIER_PROSTO); /* qaz - ignorujemy zwracaną wartość. Dlaczego? */
     if(State != STATE_OFF)
     {
         status = Pobrano;
