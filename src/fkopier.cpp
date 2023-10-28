@@ -69,23 +69,26 @@ int kopier_Class::Init(int argc, char *argv[])
                 poprawnie = 0; /* Zaznaczamy, że był błąd w przetwarzaniu */
             }
         }
-        ile = atoi(argv[nr]);
-        if(ile > 0)
+        if(poprawnie)
         {
-            BufSize = ile;
-            BufPtr = (Byte *) malloc(BufSize * sizeof(Byte));
-            if(BufPtr != NULL)
+            ile = atoi(argv[nr]);
+            if(ile > 0)
             {
-                status = 1 + nr; /* "nr" to liczba przetworzonych parametrów */
+                BufSize = ile;
+                BufPtr = (Byte *) malloc(BufSize * sizeof(Byte));
+                if(BufPtr != NULL)
+                {
+                    status = 1 + nr; /* "nr" to liczba przetworzonych parametrów */
+                }
+                else
+                {
+                    SygErrorParm("Brakło %zu bajtów pamięci", BufSize * sizeof(Byte));
+                }
             }
             else
             {
-                SygErrorParm("Brakło %zu bajtów pamięci", BufSize * sizeof(Byte));
+                SygErrorParm("Nie udało się wczytać wielkości bufora z napisu %s", argv[1]);
             }
-        }
-        else
-        {
-            SygErrorParm("Nie udało się wczytać wielkości bufora z napisu %s", argv[1]);
         }
     }
     else
