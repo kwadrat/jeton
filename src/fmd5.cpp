@@ -55,7 +55,12 @@ int md5_Class::Init(int argc, char *argv[])
                 }
                 else
                 {
-                    SygErrorParm("Brakło %lld bajtów pamięci", (BufSize + 72) * (long long) sizeof(Byte));
+                    #ifdef PLATFORM_LINUX
+                    SygErrorParm("Brakło %zu bajtów pamięci", (BufSize + 72) * sizeof(Byte));
+                    #endif
+                    #ifdef PLATFORM_WIN
+                    SygErrorParm("Brakło %d bajtów pamięci", (BufSize + 72) * sizeof(Byte));
+                    #endif
                 }
             }
             else
