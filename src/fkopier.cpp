@@ -82,7 +82,7 @@ int kopier_Class::Init(int argc, char *argv[])
                 }
                 else
                 {
-                    SygErrorParm("Brakło %zu bajtów pamięci", BufSize * sizeof(Byte));
+                    SygErrorParm("Brakło %lld bajtów pamięci", BufSize * (long long) sizeof(Byte));
                 }
             }
             else
