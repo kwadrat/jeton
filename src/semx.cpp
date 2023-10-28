@@ -347,10 +347,10 @@ po wykonaniu operacji zwalniania bufora */
 int Semafor::SemV(void)
 {
     int status;
-    int tmpval; /* Tymczasowa wartość semafora */
     status = AktStan;
     #if SEMAFOR_JEDNOPOZIOMOWY
     #ifdef PLATFORM_WIN
+    int tmpval; /* Tymczasowa wartość semafora */
     BOOL kod;
     kod = ReleaseSemaphore(hSemaphore, 1, (LPLONG) & tmpval);
     if( ! kod)
