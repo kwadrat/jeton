@@ -3,7 +3,7 @@ CXX = c++
 CMF = #-s -O6
 NET_SIMPLE = 0
 LDFLAGS = $(CMF) #-g
-CCFLAGS = $(CMF) -D NET_SIMPLE=$(NET_SIMPLE) -I include -MD
+CCFLAGS = $(CMF) -D NET_SIMPLE=$(NET_SIMPLE) -I include -MD -Wall
 BDIR = build
 .PHONY: all clean
 all: $(BDIR) $(BDIR)/$(TARGET)
