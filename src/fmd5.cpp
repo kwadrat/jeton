@@ -141,7 +141,6 @@ int md5_Class::Obsluga_SAND_GENERAL(int kmn, Byte * poczatek, int ile)
 {
     int r1;
     int status;
-    int i;
     int pracuj; /* Znacznik do pętli wypełniającej bufor danymi */
 
     status = RESULT_OFF;
