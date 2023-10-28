@@ -23,7 +23,7 @@ SimpleSem::SimpleSem(void)
     }
     else
     {
-        SygErrorParm("CreateSemaphore zwróciło %d", GetLastError());
+        SygErrorParm("CreateSemaphore zwróciło %ld", GetLastError());
     }
     #endif
     #ifdef PLATFORM_LINUX
@@ -112,7 +112,7 @@ void SimpleSem::V(void)
     kod = ReleaseSemaphore(hSemaphore, 1, NULL);
     if( ! kod)
     {
-        SygErrorParm("ReleaseSemaphore() zwrócił %d\n", GetLastError());
+        SygErrorParm("ReleaseSemaphore() zwrócił %ld\n", GetLastError());
         exit(0);
     }
     #endif
@@ -220,7 +220,7 @@ int Semafor::UstawWartosc(int value, int ilest)
     }
     else
     {
-        SygErrorParm("CreateSemaphore zwróciło %d", GetLastError());
+        SygErrorParm("CreateSemaphore zwróciło %ld", GetLastError());
     }
     #endif
     #ifdef PLATFORM_LINUX
@@ -355,7 +355,7 @@ int Semafor::SemV(void)
     kod = ReleaseSemaphore(hSemaphore, 1, (LPLONG) & tmpval);
     if( ! kod)
     {
-        SygErrorParm("ReleaseSemaphore() zwrócił %d\n", GetLastError());
+        SygErrorParm("ReleaseSemaphore() zwrócił %ld\n", GetLastError());
         exit(0);
     }
     if(MinVal > tmpval)

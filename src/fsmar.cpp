@@ -279,7 +279,7 @@ int smar_Class::DodajWatek(void)
     }
     else
     {
-        SygErrorParm("Błąd w czasie tworzenia nowego wątku: %d", GetLastError());
+        SygErrorParm("Błąd w czasie tworzenia nowego wątku: %ld", GetLastError());
     }
     #endif
     return status;
