@@ -293,7 +293,7 @@ int Semafor::SemP(void)
     dwWaitResult = WaitForSingleObject(hSemaphore, INFINITE);
     if(dwWaitResult != WAIT_OBJECT_0)
     {
-        SygErrorParm("WaitForSingleObject() zwrócił %d\n", dwWaitResult);
+        SygErrorParm("WaitForSingleObject() zwrócił %ld\n", dwWaitResult);
         exit(0);
     }
     #endif
