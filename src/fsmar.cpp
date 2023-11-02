@@ -91,7 +91,7 @@ int smar_Class::AdvancedInit(int ile, int rozmiar)
 
 int smar_Class::Init(int argc, char *argv[])
 {
-    int ile;
+    int ile = 0;
     int rozmiar;
     int status;
     int nr; /* Numer aktualnie przetwarzanego parametru */
