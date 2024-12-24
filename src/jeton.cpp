@@ -46,7 +46,7 @@ int main(int argc, char * argv[])
         {
             if(CreateChainLogic(argc - 1, argv + 1))
             {
-                /* Circle in the sand (Belinda Carlile?) - uruchom łańcuch procesów */
+                /* Circle in the sand (Belinda Carlisle) - uruchom łańcuch procesów */
                 TopMember.RunProcesses();
             }
             else
