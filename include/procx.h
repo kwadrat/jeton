@@ -15,8 +15,8 @@ class ProcessClass
     virtual ~ProcessClass(void);
     ProcessClass * PrevProcess;
     ProcessClass * NextProcess;
-    virtual int Init(int, char *[]);
-    virtual int Work(int, Byte *, int);
+    virtual int Init(int, char *[]) = 0;
+    virtual int Work(int, Byte *, int) = 0;
     virtual void LocalDestructor(void);
     virtual ProcessClass * FindUnusedPointer(void);
     virtual int ConnectPointer(ProcessClass *);

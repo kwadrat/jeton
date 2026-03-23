@@ -26,18 +26,6 @@ ProcessClass::~ProcessClass(void)
     LocalDestructor();
 }
 
-int ProcessClass::Init(int, char *[])
-{
-    SygError("To nie powinno być wywoływane");
-    return RESULT_OFF;
-}
-
-int ProcessClass::Work(int, Byte *, int)
-{
-    SygError("To nie powinno być wywoływane");
-    return 0;
-}
-
 ProcessClass * ProcessClass::FindUnusedPointer(void)
 {
     ProcessClass * tmp;
